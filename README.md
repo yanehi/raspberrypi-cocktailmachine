@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/yanehi/raspberrypi-cocktailmachine.svg?branch=master)](https://travis-ci.org/yanehi/raspberrypi-cocktailmachine)
+[![codecov](https://codecov.io/gh/yanehi/raspberrypi-cocktailmachine/branch/master/graph/badge.svg?token=7J43OC52VU)](undefined)
 
 # Project Cocktailmachine
 

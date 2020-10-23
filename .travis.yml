@@ -2,6 +2,11 @@ language: python
 python:
     - "3.8"
 
+cache: pip
+
+before_install:
+  - pip install codecov
+
 install:
   # Install test dependencies.
   - pip install -r requirements.txt
@@ -12,3 +17,6 @@ jobs:
       script: flake8 --config=flake8.ini --output-file=flake8Report.txt
     - stage: test
       script: pytest
+      after_success:
+        - bash <(curl -s https://codecov.io/bash)
+        - codecov # submit coverage
