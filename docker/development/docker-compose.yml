@@ -10,6 +10,11 @@ services:
     ports:
       - target: 27017
         published: 27017
+    volumes:
+      - type: volume
+        source: mongo_data
+        target: /data/db
+
 
   mongo-express:
     image: mongo-express
@@ -34,4 +39,12 @@ services:
     ports:
       - target: 8000
         published: 8000
+    volumes:
+      - type: bind
+        source: ../../api
+        target: /usr/src/api
+
+volumes:
+  mongo_data:
+
 
