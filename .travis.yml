@@ -26,8 +26,9 @@ install:
 jobs:
   include:
     - stage: flake8
-      script: flake8 --config=flake8.ini --output-file=flake8Report.txt
+      script: flake8 --config=flake8.ini
     - stage: test
       script: pytest
       after_success:
         - codecov # submit coverage
+        - bash <(curl -s https://codecov.io/bash)
