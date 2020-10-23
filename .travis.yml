@@ -10,3 +10,5 @@ jobs:
   include:
     - stage: flake8
       script: flake8 --config=flake8.ini --output-file=flake8Report.txt
+    - stage: test
+      script: pytest

@@ -3,3 +3,4 @@ virtualenv==20.0.35
 RPi.GPIO==0.7.0
 fastapi==0.61.1
 uvicorn==0.12.2
+pytest==6.1.1
