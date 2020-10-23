@@ -2,7 +2,9 @@ language: python
 python:
     - "3.8"
 
-cache: pip
+arch: arm64
+os: linux
+dist: focal
 
 before_install:
   - pip install codecov
