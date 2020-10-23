@@ -34,7 +34,7 @@ For the REST API we use [FastAPI](https://fastapi.tiangolo.com/)
 ## Commit Guide and Branching
 
 * we use the [Angular commit guide](https://github.com/angular/angular/blob/master/CONTRIBUTING.md).
-* branch names: <issue-number>-issue-name
+* branch names: `<issue-number>`-issue-name
 
 ## Styleguide
 * [flake8](https://flake8.pycqa.org/en/latest/)

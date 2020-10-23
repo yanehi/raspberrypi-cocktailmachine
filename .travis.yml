@@ -28,7 +28,6 @@ jobs:
     - stage: flake8
       script: flake8 --config=flake8.ini
     - stage: test
-      script: pytest --cov=./
+      script: make test
       after_success:
-        - codecov # submit coverage
-        - bash <(curl -s https://codecov.io/bash)
+        - codecov
