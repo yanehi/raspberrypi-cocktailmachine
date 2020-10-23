@@ -1,2 +1,2 @@
 test:
-	py.test tests/test.py --cov=codecov --cov-report=xml
+	py.test tests/test.py --cov-report=xml -cov=raspberrypi-cocktailmachine tests/
