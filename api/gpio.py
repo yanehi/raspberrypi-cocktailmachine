@@ -30,7 +30,7 @@ class Dispenser:
         return float(cl * 1.5)
 
     def print_liquid_status(self, seconds, dispenser_number):
-        cl = float(seconds)/105
+        cl = float(seconds) / 105
         for i in range(105):
             time.sleep(cl)
             if i % 5 == 0:
