@@ -2,7 +2,6 @@
 [![codecov](https://codecov.io/gh/yanehi/raspberrypi-cocktailmachine/branch/master/graph/badge.svg?token=7J43OC52VU)](https://codecov.io/gh/yanehi/raspberrypi-cocktailmachine)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Issues](https://img.shields.io/github/issues/yanehi/raspberrypi-cocktailmachine)]()
-[![Issues](https://img.shields.io/github/issues/yanehi/raspberrypi-cocktailmachine)]()
 [![Forks](https://img.shields.io/github/forks/yanehi/raspberrypi-cocktailmachine)]()
 [![Forks](https://img.shields.io/github/stars/yanehi/raspberrypi-cocktailmachine)]()
 [![Cocktailmachine](https://img.shields.io/badge/cocktailmachine-mixing-blueviolet)]()
