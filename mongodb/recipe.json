@@ -1,0 +1,40 @@
+{
+  "_id": {
+    "$oid": "5f932bb2e2ff130008bc5fae"
+  },
+  "name": "Vodka-O",
+  "ingredients": [
+    {
+      "ingredientId": {
+        "$oid": "5f932a1ae2ff130008bc5fa8"
+      },
+      "amount": 2
+    },
+    {
+      "ingredientId": {
+        "$oid": "5f932a26e2ff130008bc5faa"
+      },
+      "amount": 30
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "5f932b75e2ff130008bc5fac"
+  },
+  "name": "Cuba Libre",
+  "ingredients": [
+    {
+      "ingredientId": {
+        "$oid": "5f9329fce2ff130008bc5fa4"
+      },
+      "amount": 2
+    },
+    {
+      "ingredientId": {
+        "$oid": "5f932a0de2ff130008bc5fa6"
+      },
+      "amount": 30
+    }
+  ]
+}
