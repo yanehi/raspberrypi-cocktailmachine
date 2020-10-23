@@ -18,5 +18,4 @@ jobs:
     - stage: test
       script: pytest
       after_success:
-        - bash <(curl -s https://codecov.io/bash)
         - codecov # submit coverage
