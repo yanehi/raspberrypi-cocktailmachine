@@ -31,3 +31,6 @@ jobs:
       script: pytest --color=yes --cov=./ --assert=plain --cov-report=xml
       after_success:
         - codecov
+    - stage: deploy
+      provider: heroku
+      run: "cd api &&  uvicorn main:app --reload"
