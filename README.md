@@ -51,33 +51,23 @@ Look at  [setup file](./Setup_pi.md) to prepare your RaspberryPi with the prereq
 
 ### Local development
 
-* install python3.8 and latest pip (debian/ubuntu)
+* install [docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/)
+* run the containers in `docker/development`
 
 ```
-apt-get install python3.8
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python get-pip.py
+docker-compose up
 ```
 
-* clone project and create `virtualenv`
+* access `mongo-express`
 
 ```
-git clone https://github.com/yanehi/raspberrypi-cocktailmachine.git
-virtualenv cocktailmachine
-source cocktailmachine/bin/activate
+http://0.0.0.0:8081
 ```
 
-*  install the dependencies in your `virtualenv`
+* fastapi `mongo-express`
 
 ```
-cd raspberrypi-cocktailmachine
-pip install -r requirements.txt
-```
-
-* start the app and let's shake!
-
-```
-coming soon...
+http://0.0.0.0:8000
 ```
 
 ## License
