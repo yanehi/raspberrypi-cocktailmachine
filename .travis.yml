@@ -1,0 +1,12 @@
+language: python
+python:
+    - "3.8"
+
+install:
+  # Install test dependencies.
+  - pip install -r requirements.txt
+
+jobs:
+  include:
+    - stage: flake8
+      script: flake8 --config=flake8.ini --output-file=flake8Report.txt
