@@ -6,12 +6,12 @@ env:
 cache:
   pip: true
   directories:
-  - $HOME/.cache/pip
+    - $HOME/.cache/pip
 before_cache:
-- rm -f $HOME/.cache/pip/log/debug.log
+  - rm -f $HOME/.cache/pip/log/debug.log
 
 python:
-    - "3.8"
+  - "3.8"
 
 arch: arm64
 os: linux
