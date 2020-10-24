@@ -3,7 +3,7 @@ version: "3.3"
 services:
   mongodb:
     container_name: mongodb
-    image: mongo:2.4.14
+    image: mongo
     restart: always
     env_file:
       - ../../env/mongodb.env
