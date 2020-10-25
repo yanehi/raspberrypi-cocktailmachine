@@ -3,6 +3,8 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB
 
+# from gpio import Dispenser
+
 mongo = MongoDB()
 
 app = FastAPI()
@@ -49,13 +51,7 @@ async def get_recipe_by_name(name: str, recipe: Recipe):
     return {'recipe': recipe}
 
 
-# mix cocktail
-@app.get('/apiv1/recipe/{name}/mix')
-async def is_cocktail_mixable(name: str):
-    # check if cocktail is mixable
-    mixable = False
-
-    # check if all dispenser ids are not -1
+def get_ingredient_ids(name):
     recipes = []
     for recipe in mongo.get_db().recipe.find({"name": name}):
         recipes.append(Recipe(**recipe))
@@ -65,6 +61,29 @@ async def is_cocktail_mixable(name: str):
     # add all ingredient ids in a list
     for counter in range(len(recipe['ingredients'])):
         ingredient_ids.append(recipe['ingredients'][counter]['ingredientId'])
+    return ingredient_ids
+
+
+def get_ingredients(name):
+    recipes = []
+    for recipe in mongo.get_db().recipe.find({"name": name}):
+        recipes.append(Recipe(**recipe))
+
+    ingredients = []
+
+    # add all ingredient ids in a list
+    for counter in range(len(recipe['ingredients'])):
+        ingredients.append(recipe['ingredients'][counter])
+    return ingredients
+
+
+# check by name if cocktail is mixable
+@app.get('/apiv1/recipe/{name}/mixable')
+async def is_cocktail_mixable(name: str):
+    # check if cocktail is mixable
+    mixable = False
+
+    ingredient_ids = get_ingredient_ids(name)
 
     # check for every ingredient by its id if dispenser is not -1
     for ingredient_id in ingredient_ids:
@@ -76,6 +95,41 @@ async def is_cocktail_mixable(name: str):
             mixable = True
     return mixable
 
+
+@app.get('/apiv1/recipe/{name}/mix')
+async def mix_cocktail(name: str):
+    # !!!UNCOMMENT FOR RASPBERRY PI!!!
+    # activate dispensers
+    # dispenser1 = Dispenser(18)
+    # dispenser2 = Dispenser(23)
+    # dispenser3 = Dispenser(24)
+    # dispenser4 = Dispenser(25)
+
+    dispenser_return_message = []
+
+    for ingredient in get_ingredients(name):
+        ingredient_id = ingredient['ingredientId']
+        ingredients_amount = ingredient['amount']
+        for dispenser in mongo.get_db().ingredient.find({"_id": ObjectId(ingredient_id)}, {"dispenser": 1}):
+            dispenser_number = dispenser['dispenser']
+            if dispenser_number == 1:
+                # dispenser1.on(ingredients_amount)
+                disp1 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp1)
+            elif dispenser_number == 2:
+                # dispenser2.on(ingredients_amount)
+                disp2 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp2)
+            elif dispenser_number == 3:
+                # dispenser3.on(ingredients_amount)
+                disp3 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp3)
+            elif dispenser_number == 4:
+                # dispenser4.on(ingredients_amount)
+                disp4 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp4)
+
+    return {'message': dispenser_return_message}
 
 # not working now...
 @app.post('/apiv1/recipe/{name}')
