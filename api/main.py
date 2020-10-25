@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB
 
-# from gpio import Dispenser
+# from api.gpio import Dispenser
 
 mongo = MongoDB()
 
@@ -136,5 +136,5 @@ async def mix_cocktail(name: str):
 @app.post('/apiv1/recipe/{name}')
 async def create_recipe(recipe: Recipe):
     json_compatible_data = jsonable_encoder(recipe)
-    print(json_compatible_data)
     mongo.get_db().recipe.insert(json_compatible_data)
+    return {'created': recipe}
