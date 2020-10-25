@@ -2,11 +2,11 @@ version: "3.3"
 
 services:
   mongodb:
-    container_name: mongodb
-    image: mongo
+    container_name: alpine-mongodb-3.4.4
+    build:
+      context: ../../
+      dockerfile: ./docker/common/mongodb/Dockerfile
     restart: always
-    env_file:
-      - ../../env/mongodb.env
     ports:
       - target: 27017
         published: 27017
@@ -22,7 +22,6 @@ services:
       dockerfile: ./docker/common/Dockerfile
     depends_on:
       - mongodb
-      - mongo-express
     ports:
       - target: 8000
         published: 8000
