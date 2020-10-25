@@ -1,5 +1,6 @@
 from bson import ObjectId
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB
 
 mongo = MongoDB()
@@ -39,6 +40,13 @@ async def delete_recipe(name: str):
         return True
     else:
         return False
+
+
+# update recipe name
+@app.put('/apiv1/recipe/{name}')
+async def get_recipe_by_name(name: str, recipe: Recipe):
+    mongo.get_db().recipe.update({"name": name}, {"$set": {"name": recipe.name}})
+    return {'recipe': recipe}
 
 
 # mix cocktail
