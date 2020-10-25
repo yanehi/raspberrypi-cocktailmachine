@@ -1,5 +1,5 @@
 from pymongo import MongoClient, errors
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 
 
 class MongoDB:
@@ -28,3 +28,7 @@ class MongoDB:
 class Recipe(BaseModel):
     name: str
     ingredients: list
+
+class Ingredient(BaseModel):
+    name: str
+    dispenser = -1
