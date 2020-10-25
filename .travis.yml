@@ -27,7 +27,7 @@ jobs:
   include:
     - stage: flake8
       script: flake8 --config=flake8.ini
-    - stage: test
-      script: pytest --color=yes --cov=./ --assert=plain --cov-report=xml
+   # - stage: test
+   #   script: pytest --color=yes --cov=./ --assert=plain --cov-report=xml
       after_success:
         - codecov

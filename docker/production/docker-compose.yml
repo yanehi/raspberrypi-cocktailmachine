@@ -15,19 +15,6 @@ services:
         source: mongo_data
         target: /data/db
 
-
-  mongo-express:
-    image: mongo-express
-    container_name: mongo-express
-    depends_on:
-      - mongodb
-    restart: always
-    ports:
-      - target: 8081
-        published: 8081
-    env_file:
-      - ../../env/mongo-express.env
-
   fastapi:
     container_name: fastapi
     build:
@@ -39,10 +26,6 @@ services:
     ports:
       - target: 8000
         published: 8000
-    volumes:
-      - type: bind
-        source: ../../api
-        target: /usr/src/api
 
 volumes:
   mongo_data:
