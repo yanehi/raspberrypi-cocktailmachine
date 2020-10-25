@@ -46,7 +46,7 @@ async def delete_recipe(name: str):
 
 # update recipe name
 @app.put('/apiv1/recipe/{name}')
-async def get_recipe_by_name(name: str, recipe: Recipe):
+async def update_recipe_name(name: str, recipe: Recipe):
     mongo.get_db().recipe.update({"name": name}, {"$set": {"name": recipe.name}})
     return {'recipe': recipe}
 
@@ -130,6 +130,7 @@ async def mix_cocktail(name: str):
                 dispenser_return_message.append(disp4)
 
     return {'message': dispenser_return_message}
+
 
 # not working now...
 @app.post('/apiv1/recipe/{name}')
