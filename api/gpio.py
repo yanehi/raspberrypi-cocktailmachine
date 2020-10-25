@@ -49,14 +49,3 @@ class Dispenser:
             GPIO.output(self.dispenser_pin, GPIO.LOW)
         else:
             print("Dispenser with the number " + str(self.dispenser_pin) + " does not exist!")
-
-
-dispenser1 = Dispenser(18)
-dispenser2 = Dispenser(23)
-dispenser3 = Dispenser(24)
-dispenser4 = Dispenser(25)
-
-dispenser1.on(5)
-dispenser2.on(5)
-dispenser3.on(5)
-dispenser4.on(5)

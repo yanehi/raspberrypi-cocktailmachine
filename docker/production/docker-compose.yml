@@ -1,0 +1,33 @@
+version: "3.3"
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    restart: always
+    env_file:
+      - ../../env/mongodb.env
+    ports:
+      - target: 27017
+        published: 27017
+    volumes:
+      - type: volume
+        source: mongo_data
+        target: /data/db
+
+  fastapi:
+    container_name: fastapi
+    build:
+      context: ../../
+      dockerfile: ./docker/common/Dockerfile
+    depends_on:
+      - mongodb
+      - mongo-express
+    ports:
+      - target: 8000
+        published: 8000
+
+volumes:
+  mongo_data:
+
+
