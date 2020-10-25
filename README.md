@@ -47,7 +47,8 @@ For the REST API we use [FastAPI](https://fastapi.tiangolo.com/)
 
 ## How to use?
 
-Look at  [setup file](./Setup_pi.md) to prepare your RaspberryPi with the prerequisites you need.
+Look at  [setup pi](./setup pi_three.sh) to prepare your `RaspberryPi3+` with the prerequisites you need.
+* try also with [setup pi](./setup pi_zero.sh) to prepare your `RaspberryPi Zero W`
 
 ### Local development
 

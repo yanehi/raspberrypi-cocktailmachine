@@ -134,12 +134,6 @@ async def mix_cocktail(name: str):
 # not working now...
 @app.post('/apiv1/recipe/{name}')
 async def create_recipe(recipe: Recipe):
-    for ingredient in range(len(recipe.ingredients)):
-        mongo.get_db().recipe.insert({
-            "name": recipe.name,
-            "ingredients": [
-                {
-                    "ingredientId": recipe.ingredients[ingredient]['ingredientId'],
-                    "amount": recipe.ingredients[ingredient]['amount']
-                }
-            ]})
+    json_compatible_data = jsonable_encoder(recipe)
+    print(json_compatible_data)
+    mongo.get_db().recipe.insert(json_compatible_data)
