@@ -142,7 +142,7 @@ async def mix_cocktail(name: str):
 
 
 # not working now...
-@app.post('/apiv1/recipe/')
+@app.post('/apiv1/recipe')
 async def create_recipe(recipe: Recipe):
     json_compatible_data = jsonable_encoder(recipe)
     mongo.get_db().recipe.insert(json_compatible_data)
