@@ -2,8 +2,6 @@ language: python
 env:
   global:
   - PIP_CACHE_DIR="$HOME/.cache/pip"
-  - secure: QvLoWpgGk7v2HFumAwuUDV1UxLuRiazyYZoUmzidlpeh4Z+qisLfhhQib6IxB6/mAGauLusQS64tT8fjFaoFiFZ4vWXVi6cT6gGsyDUKQVRlWjhvsRL1Vwx1o26s9pNzdjsZzQQEXb2BnQ0gjYmXTaPlUp9z2fuoAloQfIndyxs32EPQF9TsK4hY4Jax1vKCEw3loJ/r4WTmJk1G2eUZfNIi38pAZBhgSrxEBkf+yqg5Lfkvl1acthGJeJFpkzuBtF4BRGNA0YxKULvMidMTnhnGBW9DBcqCrln4MUYfi7+YL6lSXg0Lg/aXJsbUph1pxqcJtTZF6grn1u2ZVpooPTCvDv86XH4zSBgGSo+p7GYUOECFGFYaPW+MxtNtBnh+gZd4bnauU4afz1XUVzX67il/Xo3CMDCBBg1T0lqCh9vqYeeCe4sX1XZET25kGqk6rA7fiGptB3mxQw7ERGSXP3wzF2Q7pkrQEy26kGnThucgk2Px1BZTgHoKJmu/YqQyHP2TjNy6VGb5vZ0ArwzX+bSZVaisFD+dhJpoqDAAwjiJClqRN9UlLP4gtL7GDEMniK+MlCyzn9GwhHEcKdXhQruUNMTffPxn+Tacx7NE03QZnNkj8P5Uka+h+8GQ9qjFhcI8ks9Wke8Qu+W5ZnyJzRsz/R6qnAVkAZ85vME93qI=
-  - secure: UkFD3/2IYUsEDYly4JmOCMklDdvnFuxe63ANGV/C2dO7vtFnFWxs7zjkVH5t2Xj/tslauToe9NQ5AONhL2Dr29LJt4Noo6C+rM9GwrqQkZu/EffHIihSkafENTbjwsBJxdZZDOuvBtUHtf1mW138po3Auoh8IduRvoTnnMAVgq5zMlH77qj1zvG0qq0qESsrB+mMyozYscU1lZv6GA4Eyfj9AVRfFW0rcU2eANlsQiZO7caivml6C5MAnacRShyjXSSpzGda2me5UR5DcxgvrcqJEq3de3ACiIYA5LBGl/OgWf4y2CuiZjd87XAEZ3EnFTU/xdR0mmU0R8eEE7WAk/k79aOkYT7W4aaajtKb9cf/a5+HrI6WmTG7fHUQ2pcrhgSYZmdPo24UJJxAVOK39js59sOfOd1J7mCAKJRErWVqawZy6AbVmh3SyyIuzQeuy7wFZdTPVMvWDFdoGsUlAv06cJECCvvuxqf4aRHalFqFY3kkLaS0egvnUaPijkuKgVQmSBhRMrgpS0y+rH0XYhFrdI21rKLBKOpw/cDyWETbiy6Dz958v+jVbjeQvhSy97IYXEPYKYdHeJCZ7pMpCEVFb1Z1GpuxaMa3uMQxIIX3ryEdG1ssM6TfGGMFEAUplkrlHQyWBOFgypBMnltprnDObCED1NTnK0U0UPFU6sI=
 cache:
   pip: true
   directories:
@@ -15,22 +13,15 @@ python:
 arch: arm64
 os: linux
 dist: focal
-services: docker
 before_install:
 - pip install codecov
 install:
 - pip install -r requirements.txt
 jobs:
   include:
-  - stage: build
-    provider: script
-    script: bash docker_build
   - stage: flake8
     script: flake8 --config=flake8.ini
     after_success:
     - codecov
-  - stage: deploy
-    provider: script
-    script: bash docker_push
     on:
       branch: master

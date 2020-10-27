@@ -13,8 +13,6 @@ class JSONEncoder(json.JSONEncoder):
         return json.JSONEncoder.default(self, o)
 
 
-# from api.gpio import Dispenser
-
 mongo = MongoDB()
 
 app = FastAPI()
