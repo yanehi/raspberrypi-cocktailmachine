@@ -1,4 +1,8 @@
 #!/bin/bash
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-docker build -t yannicnevhi/fastapi:latest -f docker/common/Dockerfile ./api
+docker build -t yannicnevhi/fastapi:latest -f docker/common/Dockerfile .
+
+docker container run --name fastapi-backend -p 8000:8000 yannicnevhi/fastapi
+
+curl http://0.0.0.0:8000/
