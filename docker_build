@@ -1,6 +1,8 @@
 #!/bin/bash
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
+docker container run -d --name mongodb -p 27017:27017 -v mongo_data:/data/db mongo
+
 cp requirements.txt api
 
 sudo docker build -t $DOCKER_USERNAME/fastapi:$TRAVIS_BRANCH -f docker/common/Dockerfile ./api
