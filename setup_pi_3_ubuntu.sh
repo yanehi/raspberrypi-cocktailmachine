@@ -60,4 +60,5 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 #     roles: [ { role: "readWrite", db: "cocktailmachine" } ]
 #   }
 # );
+# with RPI0 -> db.addUser({user: "barkeeper", pwd: "barkeeper", roles: [ "readWrite", "cocktailmachine" ]})
 # MongoDB connection string: MongoClient('mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine')
