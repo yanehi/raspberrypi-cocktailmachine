@@ -1,4 +1,8 @@
 #!/bin/bash
-echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+echo "$DOCKER_PASSWORD"
+echo "$DOCKER_USERNAME"
 
-docker build -t yannicnevhi/fastapi:$TRAVIS_BRANCH -f docker/common/Dockerfile /api
+#echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+docker version
+# docker build -t yannicnevhi/fastapi:$TRAVIS_BRANCH -f docker/common/Dockerfile /api
