@@ -34,15 +34,30 @@ python get-pip.py
 python -m pip install --upgrade pip
 
 # set PATH and create virtualenv
-export PATH="$PATH:/home/pi/.local/bin"
+export PATH="$PATH:/home/ubuntu/.local/bin"
 pip install virtualenv==20.0.35
 virtualenv cocktailmachine
 source cocktailmachine/bin/activate
 
 # clone project and install dependencies
+mkdir git
+cd git
 git clone https://github.com/yanehi/raspberrypi-cocktailmachine.git
 cd raspberrypi-cocktailmachine
 cp env/mongodb-express.env.dummmy env/mongodb-express.env
 pip install -r requirements.txt
 cd api
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+# create database cocktailmachine
+# create user barkeeper with password barkeeper with read/write access on db cocktailmachine
+# $ mongo
+# > use cocktailmachine
+# db.createUser(
+#   {
+#     user: "barkeeper",
+#     pwd: "barkeeper",
+#     roles: [ { role: "readWrite", db: "cocktailmachine" } ]
+#   }
+# );
+# MongoDB connection string: MongoClient('mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine')
