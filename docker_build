@@ -1,4 +1,4 @@
 #!/bin/bash
 docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-pwd
-docker build -f docker/common/Dockerfile .
+
+docker build -t yannicnevhi/fastapi:latest -f docker/common/Dockerfile ./api
