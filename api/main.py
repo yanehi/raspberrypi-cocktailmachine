@@ -1,7 +1,6 @@
 from bson import ObjectId
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
-from fastapi.responses import JSONResponse
 from models import Recipe, MongoDB, Ingredient
 from gpio import Dispenser
 import json
@@ -20,6 +19,7 @@ mongo = MongoDB()
 
 app = FastAPI()
 
+
 # Index Route
 @app.get("/")
 async def root():
@@ -31,7 +31,7 @@ async def root():
 @app.get('/apiv1/recipe', status_code=200)
 async def get_all_recipes():
     recipes = []
-    if mongo.get_db().recipe.find().count() > 0: 
+    if mongo.get_db().recipe.find().count() > 0:
         for recipe in mongo.get_db().recipe.find():
             recipes.append(Recipe(**recipe))
     else:
@@ -42,11 +42,11 @@ async def get_all_recipes():
 # get recipe by name
 @app.get('/apiv1/recipe/{name}', status_code=200)
 async def get_recipe_by_name(name: str):
-    req = mongo.get_db().recipe.find_one({"name": name}) 
+    req = mongo.get_db().recipe.find_one({"name": name})
     if req is None:
-       raise HTTPException(status_code=404, detail="Recipe not found")
-    
-    recipe = Recipe(** req)
+        raise HTTPException(status_code=404, detail="Recipe not found")
+
+    recipe = Recipe(**req)
 
     return {'recipe': recipe}
 
@@ -56,11 +56,12 @@ async def get_recipe_by_name(name: str):
 async def delete_recipe(name: str):
     req = mongo.get_db().recipe.find_one({"name": name})
     if req is None:
-       raise HTTPException(status_code=404, detail="Recipe not found")
+        raise HTTPException(status_code=404, detail="Recipe not found")
     else:
         mongo.get_db().recipe.remove({"name": name})
-        recipe = Recipe(** req)
+        recipe = Recipe(**req)
         return {"deleted": recipe}
+
 
 # update recipe name
 @app.put('/apiv1/recipe/{name}', status_code=200)
@@ -70,13 +71,13 @@ async def update_recipe_name(name: str, recipe: Recipe):
     for recipe in mongo.get_db().recipe.find():
         recipes.append(Recipe(**recipe))
 
-    recipe =  mongo.get_db().recipe.find({"name": name})
-    
+    recipe = mongo.get_db().recipe.find({"name": name})
+
     for recipe in recipes:
         if recipe.name == name:
             mongo.get_db().recipe.update({"name": name}, {"$set": {"name": recipe.name}})
 
-    if exists == False:
+    if not exists:
         raise HTTPException(status_code=404, detail="Recipe not found")
 
     return {'updated': recipe}
@@ -135,7 +136,7 @@ async def mix_cocktail(name: str):
     dispenser2 = Dispenser(23)
     dispenser3 = Dispenser(24)
     dispenser4 = Dispenser(25)
-    
+
     dispenser_return_message = []
 
     for ingredient in get_ingredients(name):
@@ -165,13 +166,13 @@ async def mix_cocktail(name: str):
 
 # create a new recipe
 @app.post('/apiv1/recipe', status_code=status.HTTP_201_CREATED)
-async def create_recipe(recipe: Recipe):
+async def create_recipe(new_recipe: Recipe):
     # get all recipes and check if a recipe with the same name exists already
     recipes = []
     for recipe in mongo.get_db().recipe.find():
         recipes.append(Recipe(**recipe))
     for recipe in recipes:
-        if recipe.name == newRecipe.name:
+        if recipe.name == new_recipe.name:
             return {'error': 'Recipe with same name already exists'}
     # if not, then save new recipe
     json_compatible_data = jsonable_encoder(recipe)
@@ -188,7 +189,7 @@ async def get_all_ingredients():
     ingredients = []
     for ingredient in mongo.get_db().ingredient.find():
         ingredients.append(Ingredient(**ingredient))
-    return{"ingredients": ingredients}
+    return {"ingredients": ingredients}
 
 
 # get one ingredient by name
@@ -198,7 +199,7 @@ async def get_ingredient_by_name(name: str):
     if req is None:
         return {'error': 'No Ingredient with this name found'}
 
-    ingredient = Ingredient(** req)
+    ingredient = Ingredient(**req)
     result = {
         'id': str(req['_id']),
         'name': ingredient.name,
@@ -210,18 +211,18 @@ async def get_ingredient_by_name(name: str):
 
 # create a new ingredient
 @app.post('/apiv1/ingredient')
-async def create_ingredient(newIngredient: Ingredient):
+async def create_ingredient(new_ingredient: Ingredient):
     # get all ingredients and check if a ingredient with same name exists
     ingredients = []
     for ingredient in mongo.get_db().ingredient.find():
         ingredients.append(Ingredient(**ingredient))
     for ingredient in ingredients:
-        if ingredient.name == newIngredient.name:
+        if ingredient.name == new_ingredient.name:
             return {'error': 'Ingredient with same name already exists'}
     # if not, then save new ingredient
-    json_compatible_data = jsonable_encoder(newIngredient)
+    json_compatible_data = jsonable_encoder(new_ingredient)
     mongo.get_db().ingredient.insert_one(json_compatible_data)
-    return {'ingredient': newIngredient}
+    return {'ingredient': new_ingredient}
 
 
 # update ingredient by name
