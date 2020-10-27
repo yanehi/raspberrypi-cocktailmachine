@@ -3,10 +3,8 @@ docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 docker container run -d --name mongodb -p 27017:27017 -v mongo_data:/data/db mongo
 
-docker container exec -it mongodb mongo --eval "printjson(db.version())"
-
 cp requirements.txt api
 
-sudo docker build -t yannicnevhi/fastapi:$TRAVIS_BRANCH -f docker/common/Dockerfile ./api
+sudo docker build -t $DOCKERHUB_USERNAME/fastapi:$TRAVIS_BRANCH -f docker/common/Dockerfile ./api
 
 docker container run -d --name fastapi-backend -p 8000:8000 yannicnevhi/fastapi
