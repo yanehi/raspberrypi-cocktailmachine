@@ -1,7 +1,8 @@
 import pymongo
 
 # database connection
-client = pymongo.MongoClient("mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine")
+# client = pymongo.MongoClient("mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine")
+client = pymongo.MongoClient("mongodb://mongodb:27017/")
 
 # create database cocktailmachine
 db = client["cocktailmachine"]
@@ -12,7 +13,7 @@ recipe_list = [
         "name": "Vodka Shot",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9b",
+                "ingredientId": "5f9760bc3c54e107bf5fd64d",
                 "amount": 4
             }
         ]
@@ -21,12 +22,12 @@ recipe_list = [
         "name": "Vodka-O",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9b",
+                "ingredientId": "5f9760bc3c54e107bf5fd64d",
                 "amount": 4
             },
             {
-                "ingredientId": "5f947e94945e70d35915dfa1",
-                "amount": 30
+                "ingredientId": "5f9760bc3c54e107bf5fd653",
+                "amount": 10
             }
         ]
     },
@@ -34,12 +35,12 @@ recipe_list = [
         "name": "Cuba Libre",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df99",
+                "ingredientId": "5f9760bc3c54e107bf5fd64b",
                 "amount": 4
             },
             {
-                "ingredientId": "5f947e94945e70d35915df9a",
-                "amount": 30
+                "ingredientId": "5f9760bc3c54e107bf5fd64c",
+                "amount": 10
             }
         ]
     },
@@ -47,20 +48,20 @@ recipe_list = [
         "name": "Copa-mixable",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9d",
-                "amount": 9
+                "ingredientId": "5f9760bc3c54e107bf5fd64c",
+                "amount": 3
             },
             {
-                "ingredientId": "5f947e94945e70d35915df9a",
-                "amount": 99
+                "ingredientId": "5f9760bc3c54e107bf5fd64c",
+                "amount": 2
             },
             {
-                "ingredientId": "5f947e94945e70d35915df9b",
-                "amount": 10
+                "ingredientId": "5f9760bc3c54e107bf5fd64b",
+                "amount": 1
             },
             {
-                "ingredientId": "5f947e94945e70d35915df9c",
-                "amount": 32
+                "ingredientId": "5f9760bc3c54e107bf5fd64d",
+                "amount": 3
             }
         ]
     },
@@ -68,11 +69,11 @@ recipe_list = [
         "name": "Copa-No-mixable",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9d",
+                "ingredientId": "5f9760bc3c54e107bf5fd659",
                 "amount": 9
             },
             {
-                "ingredientId": "5f947e94945e70d35915df9a",
+                "ingredientId": "5f9760bc3c54e107bf5fd658",
                 "amount": 8
             }
         ]
@@ -81,25 +82,12 @@ recipe_list = [
         "name": "Copa-No-mixable2",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9c",
+                "ingredientId": "5f9760bc3c54e107bf5fd657",
                 "amount": 1
             },
             {
-                "ingredientId": "5f947e94945e70d35915dfa0",
-                "amount": 12
-            }
-        ]
-    },
-    {
-        "name": "Copa-No-mixable3",
-        "ingredients": [
-            {
-                "ingredientId": "5f947e94945e70d35915dfa2",
-                "amount": 8
-            },
-            {
-                "ingredientId": "5f947e94945e70d35915dfa2",
-                "amount": 45
+                "ingredientId": "5f9760bc3c54e107bf5fd656",
+                "amount": 3
             }
         ]
     },
@@ -107,8 +95,8 @@ recipe_list = [
         "name": "Wasser",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9f",
-                "amount": 300
+                "ingredientId": "5f9760bc3c54e107bf5fd651",
+                "amount": 10
             }
         ]
     },
@@ -116,8 +104,8 @@ recipe_list = [
         "name": "Mischbar",
         "ingredients": [
             {
-                "ingredientId": "5f947e94945e70d35915df9a",
-                "amount": 300
+                "ingredientId": "5f9760bc3c54e107bf5fd64d",
+                "amount": 3
             }
         ]
     }
