@@ -1,43 +1,37 @@
 language: python
 env:
   global:
-    - PIP_CACHE_DIR="$HOME/.cache/pip"
-    - secure: QvLoWpgGk7v2HFumAwuUDV1UxLuRiazyYZoUmzidlpeh4Z+qisLfhhQib6IxB6/mAGauLusQS64tT8fjFaoFiFZ4vWXVi6cT6gGsyDUKQVRlWjhvsRL1Vwx1o26s9pNzdjsZzQQEXb2BnQ0gjYmXTaPlUp9z2fuoAloQfIndyxs32EPQF9TsK4hY4Jax1vKCEw3loJ/r4WTmJk1G2eUZfNIi38pAZBhgSrxEBkf+yqg5Lfkvl1acthGJeJFpkzuBtF4BRGNA0YxKULvMidMTnhnGBW9DBcqCrln4MUYfi7+YL6lSXg0Lg/aXJsbUph1pxqcJtTZF6grn1u2ZVpooPTCvDv86XH4zSBgGSo+p7GYUOECFGFYaPW+MxtNtBnh+gZd4bnauU4afz1XUVzX67il/Xo3CMDCBBg1T0lqCh9vqYeeCe4sX1XZET25kGqk6rA7fiGptB3mxQw7ERGSXP3wzF2Q7pkrQEy26kGnThucgk2Px1BZTgHoKJmu/YqQyHP2TjNy6VGb5vZ0ArwzX+bSZVaisFD+dhJpoqDAAwjiJClqRN9UlLP4gtL7GDEMniK+MlCyzn9GwhHEcKdXhQruUNMTffPxn+Tacx7NE03QZnNkj8P5Uka+h+8GQ9qjFhcI8ks9Wke8Qu+W5ZnyJzRsz/R6qnAVkAZ85vME93qI=
-    - secure: UkFD3/2IYUsEDYly4JmOCMklDdvnFuxe63ANGV/C2dO7vtFnFWxs7zjkVH5t2Xj/tslauToe9NQ5AONhL2Dr29LJt4Noo6C+rM9GwrqQkZu/EffHIihSkafENTbjwsBJxdZZDOuvBtUHtf1mW138po3Auoh8IduRvoTnnMAVgq5zMlH77qj1zvG0qq0qESsrB+mMyozYscU1lZv6GA4Eyfj9AVRfFW0rcU2eANlsQiZO7caivml6C5MAnacRShyjXSSpzGda2me5UR5DcxgvrcqJEq3de3ACiIYA5LBGl/OgWf4y2CuiZjd87XAEZ3EnFTU/xdR0mmU0R8eEE7WAk/k79aOkYT7W4aaajtKb9cf/a5+HrI6WmTG7fHUQ2pcrhgSYZmdPo24UJJxAVOK39js59sOfOd1J7mCAKJRErWVqawZy6AbVmh3SyyIuzQeuy7wFZdTPVMvWDFdoGsUlAv06cJECCvvuxqf4aRHalFqFY3kkLaS0egvnUaPijkuKgVQmSBhRMrgpS0y+rH0XYhFrdI21rKLBKOpw/cDyWETbiy6Dz958v+jVbjeQvhSy97IYXEPYKYdHeJCZ7pMpCEVFb1Z1GpuxaMa3uMQxIIX3ryEdG1ssM6TfGGMFEAUplkrlHQyWBOFgypBMnltprnDObCED1NTnK0U0UPFU6sI=
+  - PIP_CACHE_DIR="$HOME/.cache/pip"
+  - secure: QvLoWpgGk7v2HFumAwuUDV1UxLuRiazyYZoUmzidlpeh4Z+qisLfhhQib6IxB6/mAGauLusQS64tT8fjFaoFiFZ4vWXVi6cT6gGsyDUKQVRlWjhvsRL1Vwx1o26s9pNzdjsZzQQEXb2BnQ0gjYmXTaPlUp9z2fuoAloQfIndyxs32EPQF9TsK4hY4Jax1vKCEw3loJ/r4WTmJk1G2eUZfNIi38pAZBhgSrxEBkf+yqg5Lfkvl1acthGJeJFpkzuBtF4BRGNA0YxKULvMidMTnhnGBW9DBcqCrln4MUYfi7+YL6lSXg0Lg/aXJsbUph1pxqcJtTZF6grn1u2ZVpooPTCvDv86XH4zSBgGSo+p7GYUOECFGFYaPW+MxtNtBnh+gZd4bnauU4afz1XUVzX67il/Xo3CMDCBBg1T0lqCh9vqYeeCe4sX1XZET25kGqk6rA7fiGptB3mxQw7ERGSXP3wzF2Q7pkrQEy26kGnThucgk2Px1BZTgHoKJmu/YqQyHP2TjNy6VGb5vZ0ArwzX+bSZVaisFD+dhJpoqDAAwjiJClqRN9UlLP4gtL7GDEMniK+MlCyzn9GwhHEcKdXhQruUNMTffPxn+Tacx7NE03QZnNkj8P5Uka+h+8GQ9qjFhcI8ks9Wke8Qu+W5ZnyJzRsz/R6qnAVkAZ85vME93qI=
+  - secure: UkFD3/2IYUsEDYly4JmOCMklDdvnFuxe63ANGV/C2dO7vtFnFWxs7zjkVH5t2Xj/tslauToe9NQ5AONhL2Dr29LJt4Noo6C+rM9GwrqQkZu/EffHIihSkafENTbjwsBJxdZZDOuvBtUHtf1mW138po3Auoh8IduRvoTnnMAVgq5zMlH77qj1zvG0qq0qESsrB+mMyozYscU1lZv6GA4Eyfj9AVRfFW0rcU2eANlsQiZO7caivml6C5MAnacRShyjXSSpzGda2me5UR5DcxgvrcqJEq3de3ACiIYA5LBGl/OgWf4y2CuiZjd87XAEZ3EnFTU/xdR0mmU0R8eEE7WAk/k79aOkYT7W4aaajtKb9cf/a5+HrI6WmTG7fHUQ2pcrhgSYZmdPo24UJJxAVOK39js59sOfOd1J7mCAKJRErWVqawZy6AbVmh3SyyIuzQeuy7wFZdTPVMvWDFdoGsUlAv06cJECCvvuxqf4aRHalFqFY3kkLaS0egvnUaPijkuKgVQmSBhRMrgpS0y+rH0XYhFrdI21rKLBKOpw/cDyWETbiy6Dz958v+jVbjeQvhSy97IYXEPYKYdHeJCZ7pMpCEVFb1Z1GpuxaMa3uMQxIIX3ryEdG1ssM6TfGGMFEAUplkrlHQyWBOFgypBMnltprnDObCED1NTnK0U0UPFU6sI=
+  - secure: SLlIkrr+mNxvWpIG2NpRr/OvGqNOdT59OBBIvNssXB7rIMz88TkFBFyZGtOq8czwuPU2hY5N8eCtfpiEnBQI/JhLLgkm20of6qrROlqvk7g5HvuWI0A0Tbh1gh2ZrM+1nju+YIRjKQxL6uQ9snu5fodnzbipbVQ+w5e2Fd3Cy1xLAMdpRxTI/V6yVuUZm+TrD1HFEES7DXDFOrfHEj1T+HjsZFQTpUtc6xFjZdWBo/ay+pA4v2AaBfOFtAB0WvKeQdKW8krJvL6l0t6BwTWc+RQUBiMZ2ELbA2T3zWrEW8jlAnylQ8z3vZ7iDq/uNy0emcB7WgwtpWOK3Bt9rPtM5ma0APSAVKdzTL5nGh6VaUpHlabgd3SNco2oZk1/NYjrmBa2CAo8VKbsqLe4w0oJ1Zphsx5nAaoX5cxDQZ+n0fdyyQh4XTBrJNDHDcSv5PQm9amo4bEo4Jcrd2tChZ5ScPlxGylknLxbUQJbh0oYihlpkd92m2t8o+BCtcbgFRahoaXL1o2DiHHIDnaXbZYdO33n+XYoXD/NjT2I6MTQZvGWOREQuipAtKQRDQiDm+4/5cLFQp5Ekx+OW1EA0x2tP11PwLjgCkrSFHFel6nqRLBo8OwEk0gNNwj6cXA/6KgsT8wmyG9DJjRJjWjF6B3Ps4dcLgqJadASRn+KZdhNSbw=
 cache:
   pip: true
   directories:
-    - "$HOME/.cache/pip"
-
+  - "$HOME/.cache/pip"
 before_cache:
-  - rm -f $HOME/.cache/pip/log/debug.log
-
+- rm -f $HOME/.cache/pip/log/debug.log
 python:
-  - '3.8'
-
+- '3.8'
 arch: arm64
 os: linux
 dist: focal
-
 services: docker
-
 before_install:
-  - pip install codecov
-
+- pip install codecov
 install:
-  - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 jobs:
   include:
-    - stage: build
-      provider: script
-      script: bash docker_build
-    - stage: flake8
-      script: flake8 --config=flake8.ini
-      after_success:
-        - codecov
-    - stage: deploy
-      provider: script
-      script: bash docker_push
-      on:
-        branch: master
+  - stage: build
+    provider: script
+    script: bash docker_build
+  - stage: flake8
+    script: flake8 --config=flake8.ini
+    after_success:
+    - codecov
+  - stage: deploy
+    provider: script
+    script: bash docker_push
+    on:
+      branch: master
