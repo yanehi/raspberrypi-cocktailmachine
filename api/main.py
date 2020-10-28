@@ -2,7 +2,7 @@ from bson import ObjectId
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB, Ingredient
-# from gpio import Dispenser
+#from gpio import Dispenser
 import json
 
 
@@ -45,7 +45,6 @@ async def get_recipe_by_name(name: str):
         raise HTTPException(status_code=404, detail="Recipe not found")
 
     recipe = Recipe(**req)
-
     return {'recipe': recipe}
 
 
@@ -95,15 +94,17 @@ def get_ingredient_ids(name):
 
 
 def get_ingredients(name):
-    recipes = []
-    for recipe in mongo.get_db().recipe.find({"name": name}):
-        recipes.append(Recipe(**recipe))
+    recipe = mongo.get_db().recipe.find({"name": name})
+    print(recipe[0])
+    mapmap = dict(recipe[0])
+
+    found_recipe = Recipe(mapmap)
 
     ingredients = []
 
     # add all ingredient ids in a list
-    for counter in range(len(recipe['ingredients'])):
-        ingredients.append(recipe['ingredients'][counter])
+    for counter in found_recipe.ingredients:
+        ingredients.append(Ingredient(**counter))
     return ingredients
 
 
@@ -130,10 +131,10 @@ async def is_cocktail_mixable(name: str):
 async def mix_cocktail(name: str):
     # !!!UNCOMMENT FOR RASPBERRY PI!!!
     # activate dispensers
-    # dispenser1 = Dispenser(18)
-    # dispenser2 = Dispenser(23)
-    # dispenser3 = Dispenser(24)
-    # dispenser4 = Dispenser(25)
+    #dispenser1 = Dispenser(18)
+    #dispenser2 = Dispenser(23)
+    #dispenser3 = Dispenser(24)
+    #dispenser4 = Dispenser(25)
 
     dispenser_return_message = []
 
@@ -143,19 +144,19 @@ async def mix_cocktail(name: str):
         for dispenser in mongo.get_db().ingredient.find({"_id": ObjectId(ingredient_id)}):
             dispenser_number = dispenser['dispenser']
             if dispenser_number == 1:
-                # dispenser1.on(ingredients_amount)
+                #dispenser1.on(ingredients_amount)
                 disp1 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp1)
             elif dispenser_number == 2:
-                # dispenser2.on(ingredients_amount)
+                #dispenser2.on(ingredients_amount)
                 disp2 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp2)
             elif dispenser_number == 3:
-                # dispenser3.on(ingredients_amount)
+                #dispenser3.on(ingredients_amount)
                 disp3 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp3)
             elif dispenser_number == 4:
-                # dispenser4.on(ingredients_amount)
+                #dispenser4.on(ingredients_amount)
                 disp4 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp4)
 
@@ -173,9 +174,9 @@ async def create_recipe(new_recipe: Recipe):
         if recipe.name == new_recipe.name:
             return {'error': 'Recipe with same name already exists'}
     # if not, then save new recipe
-    json_compatible_data = jsonable_encoder(recipe)
+    json_compatible_data = jsonable_encoder(new_recipe)
     mongo.get_db().recipe.insert(json_compatible_data)
-    return {'created': recipe}
+    return {'created': new_recipe}
 
 
 # Ingredient Routes
@@ -219,7 +220,7 @@ async def create_ingredient(new_ingredient: Ingredient):
             return {'error': 'Ingredient with same name already exists'}
     # if not, then save new ingredient
     json_compatible_data = jsonable_encoder(new_ingredient)
-    mongo.get_db().ingredient.insert_one(json_compatible_data)
+    mongo.get_db().ingredient.insert(json_compatible_data)
     return {'ingredient': new_ingredient}
 
 
@@ -238,6 +239,6 @@ async def update_ingredient_by_name(name: str, updateIngredient: Ingredient):
 # Reset Route - Only for Postman testing purposes
 @app.get('/apiv1/reset')
 async def reset_data():
-    mongo.get_db().recipe.delete_many({})
-    mongo.get_db().ingredient.delete_many({})
+    mongo.get_db().recipe.remove()
+    mongo.get_db().ingredient.remove()
     return {"data": "deleted"}
