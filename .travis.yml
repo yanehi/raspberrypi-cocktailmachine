@@ -1,7 +1,7 @@
 language: generic
 arch: amd64
 os: linux
-dist: focal
+dist: bionic
 notifications:
   email: false
 services:
@@ -21,14 +21,14 @@ cache:
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
 before_install:
+  # credentials are saved under the repository in travis-ci web interface
   - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
   - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
   - sudo docker push yannicnevhi/fastapi
   - sudo docker ps
   # install nodejs v12
-  #- curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
-  - sudo apt-get install nodejs
-  - sudo rm /usr/local/bin/docker-compose
+  - curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
+  - sudo apt-get install nodejs npm
   # check python version and install latest pip
   - python3 --version
   - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
