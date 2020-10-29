@@ -40,6 +40,8 @@ before_script:
   - sudo docker container run -d --name fastapi -p 8000:8000 yannicnevhi/fastapi
     # check if containers are running
   - sudo docker ps
+  - sleep 15s
+  - curl localhost:8000
 jobs:
   include:
     - stage: flake8
