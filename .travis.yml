@@ -1,26 +1,30 @@
-language: python
+language: minimal
 arch: arm64
 os: linux
 dist: focal
 notifications:
- email: false
-sudo: required
+  email: false
 services:
   - docker
-env:
- global:
- - DOCKER_COMPOSE_VERSION=1.4.2
- - PIP_CACHE_DIR="$HOME/.cache/pip"
-before_cache:
-  - rm -f $HOME/.cache/pip/log/debug.log
 python:
   - '3.8'
 node_js:
   - 12
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=1.4.2
+cache:
+  pip: true
+  directories:
+    - "$HOME/.cache/pip"
+    - node_modules
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
 before_install:
   - npm install -g newman
   - pip install codecov
   - sudo rm /usr/local/bin/docker-compose
+before_script:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
@@ -28,11 +32,9 @@ script:
   - docker-compose -f ./docker/production/docker-compose.yml up -d
 jobs:
   include:
-  - stage: flake8
-    script: flake8 --config=flake8.ini
-  - stage: postman-test
-    script: newman run postman/local/CocktailMachine.postman_collection.json
-    after_success:
-      - codecov
-    on:
-     branch: master
+    - stage: flake8
+      script: flake8 --config=flake8.ini
+    - stage: postman-test
+      script: newman run postman/dockerized/CocktailMachine.postman_collection.json
+      after_success:
+        - codecov
