@@ -27,20 +27,18 @@ matrix:
           script: flake8 --config=flake8.ini
     - language: node_js
       sudo: required
-      cache:
-        directories:
-          - node_modules
+      #cache:
+      #  directories:
+      #    - node_modules
       node_js:
-        - "14.15.0"
+        - "12.0.0"
       # Install newman
       before_install:
         - npm install -g newman
       # Run Postman Collection
-      jobs:
-        include:
-          - stage: postman-tests
-            script: newman run postman/local/CocktailMachine.postman_collection.json
-            after_success:
-              - codecov
-            on:
-              branch: master
+      script:
+        - newman run postman/local/CocktailMachine.postman_collection.json
+      after_success:
+        - codecov
+      on:
+       branch: master
