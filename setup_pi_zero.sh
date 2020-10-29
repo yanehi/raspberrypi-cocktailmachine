@@ -51,3 +51,6 @@ git clone https://github.com/yanehi/raspberrypi-cocktailmachine.git
 cd raspberrypi-cocktailmachine
 pip install -r requirements.txt
 apt-get install python3-dev python3-rpi.gpio -y
+
+# pymongo==2.7.1
+# no insert_many function available

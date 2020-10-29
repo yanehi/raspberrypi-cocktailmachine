@@ -1,6 +1,7 @@
 import pymongo
 
 # database connection
+# client = pymongo.MongoClient("mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine")
 client = pymongo.MongoClient("mongodb://mongodb:27017/")
 
 # create database cocktailmachine

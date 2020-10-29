@@ -14,6 +14,9 @@ class Dispenser:
         # so you can use the gpio numbers of the raspberry pi
         GPIO.setmode(GPIO.BCM)
 
+        # disable warnings
+        GPIO.setwarnings(False)
+
         # define the gpios for output
         self.dispenser_pin = dispenser_gpio
         GPIO.setup(self.dispenser_pin, GPIO.OUT)
