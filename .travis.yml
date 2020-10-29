@@ -34,5 +34,5 @@ jobs:
     script: newman run postman/local/CocktailMachine.postman_collection.json
     after_success:
       - codecov
-      on:
-        branch: master
+    on:
+     branch: master
