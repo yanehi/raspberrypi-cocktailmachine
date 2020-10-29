@@ -1,5 +1,5 @@
 language: generic
-arch: arm64
+arch: amd64
 os: linux
 dist: focal
 notifications:
@@ -21,10 +21,10 @@ cache:
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
 before_install:
+  - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo:2.4.14
   - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
   - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
   - sudo docker push yannicnevhi/fastapi
-  - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo
   - sudo docker container run -d --name fastapi -p 8000:8000 yannicnevhi/fastapi
   # install nodejs v12
   - curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
