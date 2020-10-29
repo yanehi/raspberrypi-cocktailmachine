@@ -1,9 +1,9 @@
-from bson import ObjectId
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB, Ingredient
 # from gpio import Dispenser
 import json
+from bson import ObjectId
 
 
 class JSONEncoder(json.JSONEncoder):
@@ -12,6 +12,8 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
+
+# from api.gpio import Dispenser
 
 mongo = MongoDB()
 
@@ -180,8 +182,6 @@ async def create_recipe(new_recipe: Recipe):
 
 
 # Ingredient Routes
-
-
 # get all ingredients
 @app.get('/apiv1/ingredient')
 async def get_all_ingredients():
@@ -218,6 +218,7 @@ async def create_ingredient(new_ingredient: Ingredient):
     for ingredient in ingredients:
         if ingredient.name == new_ingredient.name:
             return {'error': 'Ingredient with same name already exists'}
+
     # if not, then save new ingredient
     json_compatible_data = jsonable_encoder(new_ingredient)
     mongo.get_db().ingredient.insert(json_compatible_data)

@@ -1,0 +1,715 @@
+{
+	"info": {
+		"_postman_id": "57654b7f-7f98-4454-8acc-ffeb174d3a15",
+		"name": "CocktailMachine",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Reset Data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/reset",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"reset"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cola (Dispenser 0)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "71879731-c895-41e5-9218-1d0a09b8cd2a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Cola\",\n    \"dispenser\" : 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Rum (Dispenser 1)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8ab1b878-f653-4695-8e3d-b4e7168ab6dd",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Rum\",\n    \"dispenser\" : 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Vodka  (Dispenser 2)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9225ba59-8723-4ce3-8e19-8f305628fa0e",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Vodka\",\n    \"dispenser\" : 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Energy (Dispenser 3)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94e5da41-8b46-43a2-8f4c-c50f191122d9",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Energy\",\n    \"dispenser\" : 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Orange (No Dispenser)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "363637e2-c8f0-4f87-ae17-1a79e2ca02af",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Orangensaft\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cola",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c2bad917-d162-4923-810e-df3b91e72631",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"colaId\", jsonData.ingredient.id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Cola",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Cola"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Rum",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "365ad2e6-10c5-4814-b5de-09464fea5547",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"rumId\", jsonData.ingredient.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Rum",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Rum"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cuba Libre",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0a257fac-cfa0-462d-ba05-0bfa76fece6c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Cuba Libre\",\n    \"ingredients\" : [\n        {\n            \"ingredientId\": \"{{colaId}}\",\n            \"amount\": 30\n        },\n        {\n            \"ingredientId\": \"{{rumId}}\",\n            \"amount\": 2\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vodka",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2b0e929c-9759-49bd-9406-64853a4ca732",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"vodkaId\", jsonData.ingredient.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Vodka",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Vodka"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Orange",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b41782ba-1d9d-4787-99b0-a48a97459637",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"orangeId\", jsonData.ingredient.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Orangensaft",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Orangensaft"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3a2831aa-a9ae-454f-81fa-eacac629ec3f",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.environment.set(\"energyId\", jsonData.ingredient.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Energy",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Energy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Vodka Energy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Vodka Energy\",\n    \"ingredients\" : [\n        {\n            \"ingredientId\": \"{{energyId}}\",\n            \"amount\": 30\n        },\n        {\n            \"ingredientId\": \"{{vodkaId}}\",\n            \"amount\": 2\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Vodka Orange",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Vodka Orange\",\n    \"ingredients\" : [\n        {\n            \"ingredientId\": \"{{orangeId}}\",\n            \"amount\": 30\n        },\n        {\n            \"ingredientId\": \"{{vodkaId}}\",\n            \"amount\": 2\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Recipes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Ingredients",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "47793a12-0240-4f92-a076-6279283f8333",
+						"exec": [
+							"pm.test(\"response should be true\", function () {",
+							"    pm.response.to.have.jsonBody(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Is Cuba Libre mixable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b4856eec-086d-4ab5-947e-e8145f5ece71",
+						"exec": [
+							"pm.test(\"response should be true\", function () {",
+							"    pm.response.to.have.jsonBody(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Cuba Libre/mixable",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Cuba Libre",
+						"mixable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Is Vodka Energy mixable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8911bf05-c17b-43ca-a899-c34138ec57e0",
+						"exec": [
+							"pm.test(\"response should be true\", function () {",
+							"    pm.response.to.have.jsonBody(true);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Vodka Energy/mixable",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Vodka Energy",
+						"mixable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Is Vodka Orange mixable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fa66cd24-ca3a-4791-80e0-ca0ed2602d0a",
+						"exec": [
+							"pm.test(\"response should be true\", function () {",
+							"    pm.response.to.have.jsonBody(false);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Vodka Orange/mixable",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Vodka Orange",
+						"mixable"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "4b5b4335-beef-4d41-b669-951726e7751b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "7bf54672-de93-43ac-ba5a-d585bf574f2b",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Status test\", function () {",
+					"    pm.response.to.have.status(200);",
+					"});"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "589961e7-961e-4d6e-9bc2-f7f43b728287",
+			"key": "host",
+			"value": "127.0.0.1"
+		},
+		{
+			"id": "f71b8801-3ff7-4670-b540-22491d4a6cf2",
+			"key": "port",
+			"value": "8000"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
