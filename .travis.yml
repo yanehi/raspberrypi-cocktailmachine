@@ -1,4 +1,4 @@
-language: minimal
+language: generic
 arch: arm64
 os: linux
 dist: focal
@@ -12,7 +12,7 @@ node_js:
   - 12
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.4.2
+    - DOCKER_COMPOSE_VERSION=1.27.4
 cache:
   pip: true
   directories:
@@ -21,8 +21,9 @@ cache:
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
 before_install:
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
+  - sudo curl -L "https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
   - sudo mv docker-compose /usr/local/bin
   # install nodejs v12
   - curl -sL https://deb.nodesource.com/setup_12.x | sudo bash -
@@ -40,7 +41,6 @@ install:
   - pip3 install flake8
   # pushing later codecoverage to codecav
   - pip3 install codecov
-  - pip3 install docker-compose
   - docker-compose --version
   - pushd docker/production
 #  - docker-compose build
