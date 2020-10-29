@@ -41,8 +41,9 @@ install:
   # pushing later codecoverage to codecav
   - pip3 install codecov
   - pip3 install docker-compose
+  - docker-compose --version
   - pushd docker/production
-  - docker-compose build
+#  - docker-compose build
   - docker-compose up -d
   - docker container ps
   - popd
