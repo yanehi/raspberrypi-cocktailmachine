@@ -2,7 +2,7 @@ from bson import ObjectId
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB, Ingredient
-#from gpio import Dispenser
+# from gpio import Dispenser
 import json
 
 
@@ -131,10 +131,10 @@ async def is_cocktail_mixable(name: str):
 async def mix_cocktail(name: str):
     # !!!UNCOMMENT FOR RASPBERRY PI!!!
     # activate dispensers
-    #dispenser1 = Dispenser(18)
-    #dispenser2 = Dispenser(23)
-    #dispenser3 = Dispenser(24)
-    #dispenser4 = Dispenser(25)
+    # dispenser1 = Dispenser(18)
+    # dispenser2 = Dispenser(23)
+    # dispenser3 = Dispenser(24)
+    # dispenser4 = Dispenser(25)
 
     dispenser_return_message = []
 
@@ -144,19 +144,19 @@ async def mix_cocktail(name: str):
         for dispenser in mongo.get_db().ingredient.find({"_id": ObjectId(ingredient_id)}):
             dispenser_number = dispenser['dispenser']
             if dispenser_number == 1:
-                #dispenser1.on(ingredients_amount)
+                # dispenser1.on(ingredients_amount)
                 disp1 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp1)
             elif dispenser_number == 2:
-                #dispenser2.on(ingredients_amount)
+                # dispenser2.on(ingredients_amount)
                 disp2 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp2)
             elif dispenser_number == 3:
-                #dispenser3.on(ingredients_amount)
+                # dispenser3.on(ingredients_amount)
                 disp3 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp3)
             elif dispenser_number == 4:
-                #dispenser4.on(ingredients_amount)
+                # dispenser4.on(ingredients_amount)
                 disp4 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp4)
 
