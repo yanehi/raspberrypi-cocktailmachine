@@ -29,21 +29,22 @@ before_install:
   - python3 --version
   - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
   - python3 get-pip.py
-  - pip --version
   - pip3 --version
 install:
   # newman for postman collection testing
   - sudo npm install -g newman
   # flake8 for code linting
-  - pip install flake8
+  - pip3 install flake8
   # pushing later codecoverage to codecav
-  - pip install codecov
+  - pip3 install codecov
 before_script:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - docker-compose -f ./docker/production/docker-compose.yml up -d
+  - cd docker/production
 script:
+  - docker-compose build
+  - docker-compose up -d
   - docker container ps
 jobs:
   include:
