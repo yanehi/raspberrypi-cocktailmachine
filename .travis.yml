@@ -40,11 +40,11 @@ install:
   - pip3 install flake8
   # pushing later codecoverage to codecav
   - pip3 install codecov
-script:
-  - cd docker/production
+  - pushd docker/production
   - docker-compose build
   - docker-compose up -d
   - docker container ps
+  - popd
 jobs:
   include:
     - stage: flake8
