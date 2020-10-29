@@ -41,7 +41,7 @@ before_script:
     # check if containers are running
   - sudo docker ps
   - sleep 15s
-  - curl localhost:8000
+  - sudo docker ps
 jobs:
   include:
     - stage: flake8
