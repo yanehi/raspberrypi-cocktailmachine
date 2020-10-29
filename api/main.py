@@ -141,7 +141,7 @@ async def mix_cocktail(name: str):
     return {'message': dispenser_return_message}
 
 
-# not working now...
+# create recipe route
 @app.post('/apiv1/recipe/')
 async def create_recipe(recipe: Recipe):
     json_compatible_data = jsonable_encoder(recipe)
