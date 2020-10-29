@@ -1,10 +1,9 @@
-from bson import ObjectId
 from fastapi import FastAPI
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB, Ingredient
 import json
 from bson import ObjectId
-from bson.json_util import dumps
+
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -150,7 +149,6 @@ async def create_recipe(recipe: Recipe):
     return {'created': recipe}
 
 
-
 ### Ingredient Routes
 
 # get all ingredients
@@ -159,7 +157,8 @@ async def get_all_ingredients():
     ingredients = []
     for ingredient in mongo.get_db().ingredient.find():
         ingredients.append(Ingredient(**ingredient))
-    return{"ingredients" : ingredients}
+    return {"ingredients": ingredients}
+
 
 # get one ingredient by name
 @app.get('/apiv1/ingredient/{name}')
@@ -167,15 +166,16 @@ async def get_ingredient_by_name(name: str):
     req = mongo.get_db().ingredient.find_one({"name": name})
     if req == None:
         return {'error': 'No Ingredient with this name found'}
-    
-    ingredient = Ingredient(** req)
-    result = { 
-        'id' : str(req['_id']),
-        'name' : ingredient.name,
-        'dispenser' : ingredient.dispenser
+
+    ingredient = Ingredient(**req)
+    result = {
+        'id': str(req['_id']),
+        'name': ingredient.name,
+        'dispenser': ingredient.dispenser
     }
     print(result)
     return {'ingredient': result}
+
 
 # create a new ingredient
 @app.post('/apiv1/ingredient')
@@ -186,18 +186,19 @@ async def create_ingredient(newIngredient: Ingredient):
         ingredients.append(Ingredient(**ingredient))
     for ingredient in ingredients:
         if ingredient.name == newIngredient.name:
-            return {'error' : 'Ingredient with same name already exists'}
-						
+            return {'error': 'Ingredient with same name already exists'}
+
     # if not, then save new ingredient
     json_compatible_data = jsonable_encoder(newIngredient)
     mongo.get_db().ingredient.insert_one(json_compatible_data)
     return {'ingredient': newIngredient}
 
+
 # update ingredient by name
 @app.put('/apiv1/ingredient/{name}')
 async def update_ingredient_by_name(name: str, updateIngredient: Ingredient):
     req = mongo.get_db().ingredient.find_one_and_update(
-        {"name": name}, 
+        {"name": name},
         {"$set": jsonable_encoder(updateIngredient)}
     )
     if req == None:
@@ -210,4 +211,4 @@ async def update_ingredient_by_name(name: str, updateIngredient: Ingredient):
 async def reset_data():
     mongo.get_db().recipe.delete_many({})
     mongo.get_db().ingredient.delete_many({})
-    return {"data" : "deleted"}
+    return {"data": "deleted"}
