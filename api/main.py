@@ -224,7 +224,6 @@ async def create_ingredient(new_ingredient: Ingredient):
     return {'ingredient': new_ingredient}
 
 
-
 # update ingredient by name
 @app.put('/apiv1/ingredient/{name}')
 async def update_ingredient_by_name(name: str, updateIngredient: Ingredient):
