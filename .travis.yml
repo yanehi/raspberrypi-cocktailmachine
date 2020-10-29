@@ -6,10 +6,6 @@ notifications:
   email: false
 services:
   - docker
-#python:
-#  - '3.8'
-#node_js:
-#  - 12
 cache:
   pip: true
   directories:
@@ -22,10 +18,6 @@ before_install:
   - sudo apt-get install npm
   # credentials are saved under the repository in travis-ci web interface
   - npm -v
-before_script:
-  - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
-  - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
-  - sudo docker push yannicnevhi/fastapi
 install:
   # install latest pip
   - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
@@ -39,6 +31,10 @@ install:
   # pushing later codecoverage to codecav
   - pip3 install codecov
 script:
+  # login to dockerhub for pushing own image
+  - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
+  - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
+  - sudo docker push yannicnevhi/fastapi
   # start requried containers
   - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo
   - sudo docker container run -d --name fastapi -p 8000:8000 yannicnevhi/fastapi
