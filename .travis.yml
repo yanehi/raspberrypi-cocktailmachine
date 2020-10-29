@@ -30,7 +30,7 @@ install:
   - pip3 install flake8
   # pushing later codecoverage to codecav
   - pip3 install codecov
-script:
+before_script:
   # login to dockerhub for pushing own image
   - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
   - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
