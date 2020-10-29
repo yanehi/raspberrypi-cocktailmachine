@@ -3,9 +3,19 @@ os: linux
 dist: focal
 notifications:
   email: false
+services: docker
+env:
+  - DOCKER_COMPOSE_VERSION=1.4.2
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 matrix:
   include:
     - language: python
+      sudo: required
       env:
         global:
         - PIP_CACHE_DIR="$HOME/.cache/pip"
@@ -19,6 +29,7 @@ matrix:
       - '3.8'
       before_install:
       - pip install codecov
+      - docker-compose -f ./docker/production/docker-compose.yml up -d
       install:
       - pip install -r requirements.txt
       jobs:
@@ -27,11 +38,8 @@ matrix:
           script: flake8 --config=flake8.ini
     - language: node_js
       sudo: required
-      #cache:
-      #  directories:
-      #    - node_modules
       node_js:
-        - "12.0.0"
+        - 12
       # Install newman
       before_install:
         - npm install -g newman
