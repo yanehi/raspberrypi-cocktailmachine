@@ -9,6 +9,7 @@ class MongoDB:
     def __init__(self):
         try:
             # try to instantiate a client instance
+            # self.client = client = MongoClient('mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine')
             self.client = client = MongoClient("mongodb://mongodb:27017")
             self.db = client.cocktailmachine
 

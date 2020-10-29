@@ -1,6 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB, Ingredient
+# from gpio import Dispenser
 import json
 from bson import ObjectId
 
@@ -11,8 +12,6 @@ class JSONEncoder(json.JSONEncoder):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
-
-# from api.gpio import Dispenser
 
 mongo = MongoDB()
 
@@ -27,37 +26,59 @@ async def root():
 
 # Recipe routes
 # get all recipes
-@app.get('/apiv1/recipe')
+@app.get('/apiv1/recipe', status_code=200)
 async def get_all_recipes():
     recipes = []
-    for recipe in mongo.get_db().recipe.find():
-        recipes.append(Recipe(**recipe))
+    if mongo.get_db().recipe.find().count() > 0:
+        for recipe in mongo.get_db().recipe.find():
+            recipes.append(Recipe(**recipe))
+    else:
+        raise HTTPException(status_code=404, detail="There are no recipes")
     return {'recipes': recipes}
 
 
 # get recipe by name
-@app.get('/apiv1/recipe/{name}')
+@app.get('/apiv1/recipe/{name}', status_code=200)
 async def get_recipe_by_name(name: str):
-    recipes = []
-    for recipe in mongo.get_db().recipe.find({"name": name}):
-        recipes.append(Recipe(**recipe))
-    return {'recipes': recipes}
+    req = mongo.get_db().recipe.find_one({"name": name})
+    if req is None:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+
+    recipe = Recipe(**req)
+
+    return {'recipe': recipe}
 
 
 # delete recipe by name
-@app.delete('/apiv1/recipe/{name}')
+@app.delete('/apiv1/recipe/{name}', status_code=200)
 async def delete_recipe(name: str):
-    if mongo.get_db().recipe.remove({"name": name}):
-        return True
+    req = mongo.get_db().recipe.find_one({"name": name})
+    if req is None:
+        raise HTTPException(status_code=404, detail="Recipe not found")
     else:
-        return False
+        mongo.get_db().recipe.remove({"name": name})
+        recipe = Recipe(**req)
+        return {"deleted": recipe}
 
 
 # update recipe name
-@app.put('/apiv1/recipe/{name}')
+@app.put('/apiv1/recipe/{name}', status_code=200)
 async def update_recipe_name(name: str, recipe: Recipe):
-    mongo.get_db().recipe.update({"name": name}, {"$set": {"name": recipe.name}})
-    return {'recipe': recipe}
+    recipes = []
+    exists = False
+    for recipe in mongo.get_db().recipe.find():
+        recipes.append(Recipe(**recipe))
+
+    recipe = mongo.get_db().recipe.find({"name": name})
+
+    for recipe in recipes:
+        if recipe.name == name:
+            mongo.get_db().recipe.update({"name": name}, {"$set": {"name": recipe.name}})
+
+    if not exists:
+        raise HTTPException(status_code=404, detail="Recipe not found")
+
+    return {'updated': recipe}
 
 
 def get_ingredient_ids(name):
@@ -119,7 +140,7 @@ async def mix_cocktail(name: str):
     for ingredient in get_ingredients(name):
         ingredient_id = ingredient['ingredientId']
         ingredients_amount = ingredient['amount']
-        for dispenser in mongo.get_db().ingredient.find({"_id": ObjectId(ingredient_id)}, {"dispenser": 1}):
+        for dispenser in mongo.get_db().ingredient.find({"_id": ObjectId(ingredient_id)}):
             dispenser_number = dispenser['dispenser']
             if dispenser_number == 1:
                 # dispenser1.on(ingredients_amount)
@@ -141,9 +162,17 @@ async def mix_cocktail(name: str):
     return {'message': dispenser_return_message}
 
 
-# not working now...
-@app.post('/apiv1/recipe/')
-async def create_recipe(recipe: Recipe):
+# create a new recipe
+@app.post('/apiv1/recipe', status_code=status.HTTP_201_CREATED)
+async def create_recipe(new_recipe: Recipe):
+    # get all recipes and check if a recipe with the same name exists already
+    recipes = []
+    for recipe in mongo.get_db().recipe.find():
+        recipes.append(Recipe(**recipe))
+    for recipe in recipes:
+        if recipe.name == new_recipe.name:
+            return {'error': 'Recipe with same name already exists'}
+    # if not, then save new recipe
     json_compatible_data = jsonable_encoder(recipe)
     mongo.get_db().recipe.insert(json_compatible_data)
     return {'created': recipe}
@@ -178,19 +207,19 @@ async def get_ingredient_by_name(name: str):
 
 # create a new ingredient
 @app.post('/apiv1/ingredient')
-async def create_ingredient(newIngredient: Ingredient):
+async def create_ingredient(new_ingredient: Ingredient):
     # get all ingredients and check if a ingredient with same name exists
     ingredients = []
     for ingredient in mongo.get_db().ingredient.find():
         ingredients.append(Ingredient(**ingredient))
     for ingredient in ingredients:
-        if ingredient.name == newIngredient.name:
+        if ingredient.name == new_ingredient.name:
             return {'error': 'Ingredient with same name already exists'}
-
     # if not, then save new ingredient
-    json_compatible_data = jsonable_encoder(newIngredient)
+    json_compatible_data = jsonable_encoder(new_ingredient)
     mongo.get_db().ingredient.insert_one(json_compatible_data)
-    return {'ingredient': newIngredient}
+    return {'ingredient': new_ingredient}
+
 
 
 # update ingredient by name

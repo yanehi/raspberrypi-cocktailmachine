@@ -7,12 +7,6 @@ apt-get update -y && apt upgrade -y
 # install python3.8 prerequisites
 apt-get install -y git python3-dev build-essential tk-dev libncurses5-dev libncursesw5-dev libreadline6-dev libdb5.3-dev libgdbm-dev libsqlite3-dev libssl-dev libbz2-dev libexpat1-dev liblzma-dev zlib1g-dev libffi-dev tar wget vim
 
-# Install docker
-curl -fsSL https://get.docker.com -o get-docker.sh
-sh get-docker.sh
-usermod -aG docker pi
-docker version
-
 # Install MongoDBv4
 # https://developer.mongodb.com/how-to/mongodb-on-raspberry-pi
 # Install the MongoDB 4.4 GPG key:
@@ -30,45 +24,41 @@ systemctl enable mongod
 # Start up mongod!
 systemctl start mongod
 
-# download python3.8
-wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tgz
-
-# install python3.8
-tar zxf Python-3.8.0.tgz
-cd Python-3.8.0
-./configure --enable-optimizations
-make -j 4
-make altinstall
-
 # set python3.8 as default
-echo "alias python=/usr/local/bin/python3.8" >>~/.bashrc
-echo "alias python3=/usr/local/bin/python3.8" >>~/.bashrc
+echo "alias python=python3" >>~/.bashrc
 source ~/.bashrc
-
-# check python version
-python -V
-
-# remove the installation binaries
-cd
-rm -r Python-3.8.0
-rm Python-3.8.0.tgz
 
 # install pip
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 python -m pip install --upgrade pip
-echo "alias pip=/usr/local/bin/pip3.8" >>~/.bashrc
 
 # set PATH and create virtualenv
-export PATH="$PATH:/home/pi/.local/bin"
+export PATH="$PATH:/home/ubuntu/.local/bin"
 pip install virtualenv==20.0.35
 virtualenv cocktailmachine
 source cocktailmachine/bin/activate
 
 # clone project and install dependencies
+mkdir git
+cd git
 git clone https://github.com/yanehi/raspberrypi-cocktailmachine.git
 cd raspberrypi-cocktailmachine
-cp env/mongodb.env.dummmy env/mongodb.env
+cp env/mongodb-express.env.dummmy env/mongodb-express.env
 pip install -r requirements.txt
-cd docker/production
-docker-compose up -d
+cd api
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+# create database cocktailmachine
+# create user barkeeper with password barkeeper with read/write access on db cocktailmachine
+# $ mongo
+# > use cocktailmachine
+# db.createUser(
+#   {
+#     user: "barkeeper",
+#     pwd: "barkeeper",
+#     roles: [ { role: "readWrite", db: "cocktailmachine" } ]
+#   }
+# );
+# with RPI0 -> db.addUser({user: "barkeeper", pwd: "barkeeper", roles: [ "readWrite", "cocktailmachine" ]})
+# MongoDB connection string: MongoClient('mongodb://barkeeper:barkeeper@127.0.0.1/cocktailmachine')

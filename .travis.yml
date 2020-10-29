@@ -1,33 +1,27 @@
 language: python
-
 env:
   global:
-    - PIP_CACHE_DIR="$HOME/.cache/pip"
+  - PIP_CACHE_DIR="$HOME/.cache/pip"
 cache:
   pip: true
   directories:
-    - $HOME/.cache/pip
+  - "$HOME/.cache/pip"
 before_cache:
-  - rm -f $HOME/.cache/pip/log/debug.log
-
+- rm -f $HOME/.cache/pip/log/debug.log
 python:
-  - "3.8"
-
+- '3.8'
 arch: arm64
 os: linux
 dist: focal
-
 before_install:
-  - pip install codecov
-
+- pip install codecov
 install:
-  - pip install -r requirements.txt
-
+- pip install -r requirements.txt
 jobs:
   include:
-    - stage: flake8
-      script: flake8 --config=flake8.ini
-   # - stage: test
-   #   script: pytest --color=yes --cov=./ --assert=plain --cov-report=xml
-      after_success:
-        - codecov
+  - stage: flake8
+    script: flake8 --config=flake8.ini
+    after_success:
+    - codecov
+    on:
+      branch: master
