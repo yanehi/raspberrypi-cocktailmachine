@@ -1,27 +1,45 @@
-language: python
-env:
-  global:
-  - PIP_CACHE_DIR="$HOME/.cache/pip"
-cache:
-  pip: true
-  directories:
-  - "$HOME/.cache/pip"
-before_cache:
-- rm -f $HOME/.cache/pip/log/debug.log
-python:
-- '3.8'
 arch: arm64
 os: linux
 dist: focal
-before_install:
-- pip install codecov
-install:
-- pip install -r requirements.txt
-jobs:
+notifications:
+  email: false
+matrix:
   include:
-  - stage: flake8
-    script: flake8 --config=flake8.ini
-    after_success:
-    - codecov
-    on:
-      branch: master
+    - language: python
+      env:
+        global:
+        - PIP_CACHE_DIR="$HOME/.cache/pip"
+      cache:
+        pip: true
+        directories:
+        - "$HOME/.cache/pip"
+      before_cache:
+      - rm -f $HOME/.cache/pip/log/debug.log
+      python:
+      - '3.8'
+      before_install:
+      - pip install codecov
+      install:
+      - pip install -r requirements.txt
+      jobs:
+        include:
+        - stage: flake8
+          script: flake8 --config=flake8.ini
+    - language: node_js
+      cache:
+        directories:
+          - node_modules
+      node_js:
+        - "4.0.0"
+      # Install newman
+      before_install:
+        - npm install -g newman
+      # Run Postman Collection
+      jobs:
+        include:
+          - stage: postman-tests
+            script: newman run postman/local/CocktailMachine.postman_collection.json
+            after_success:
+              - codecov
+            on:
+              branch: master
