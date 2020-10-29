@@ -30,7 +30,7 @@ matrix:
         directories:
           - node_modules
       node_js:
-        - "4.0.0"
+        - "14.15.0"
       # Install newman
       before_install:
         - npm install -g newman
