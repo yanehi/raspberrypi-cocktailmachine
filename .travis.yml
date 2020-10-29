@@ -21,7 +21,7 @@ cache:
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
 before_install:
-#  - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
+  - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
   - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
   - sudo docker push yannicnevhi/fastapi
   - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo
