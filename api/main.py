@@ -149,8 +149,7 @@ async def create_recipe(recipe: Recipe):
     return {'created': recipe}
 
 
-### Ingredient Routes
-
+# Ingredient Routes
 # get all ingredients
 @app.get('/apiv1/ingredient')
 async def get_all_ingredients():
@@ -164,7 +163,7 @@ async def get_all_ingredients():
 @app.get('/apiv1/ingredient/{name}')
 async def get_ingredient_by_name(name: str):
     req = mongo.get_db().ingredient.find_one({"name": name})
-    if req == None:
+    if req is None:
         return {'error': 'No Ingredient with this name found'}
 
     ingredient = Ingredient(**req)
@@ -201,7 +200,7 @@ async def update_ingredient_by_name(name: str, updateIngredient: Ingredient):
         {"name": name},
         {"$set": jsonable_encoder(updateIngredient)}
     )
-    if req == None:
+    if req is None:
         return {'error': 'No Ingredient with this name found'}
     return {'ingredient': updateIngredient}
 
