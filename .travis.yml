@@ -6,10 +6,10 @@ notifications:
   email: false
 services:
   - docker
-python:
-  - '3.8'
-node_js:
-  - 12
+#python:
+#  - '3.8'
+#node_js:
+#  - 12
 cache:
   pip: true
   directories:
@@ -40,7 +40,7 @@ install:
   - pip3 install codecov
 script:
   # start requried containers
-  - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo:2.4.14
+  - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo
   - sudo docker container run -d --name fastapi -p 8000:8000 yannicnevhi/fastapi
     # check if containers are running
   - sudo docker ps
@@ -49,6 +49,6 @@ jobs:
     - stage: flake8
       script: flake8 --config=flake8.ini
     - stage: postman-test
-      script: newman run postman/dockerized/CocktailMachine.postman_collection.json
+      script: newman run postman/local/CocktailMachine.postman_collection.json
       after_success:
         - codecov
