@@ -13,12 +13,9 @@ cache:
     - node_modules
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
-before_install:
-  - node -v
-  - sudo apt-get install npm
-  # credentials are saved under the repository in travis-ci web interface
-  - npm -v
 install:
+  - sudo apt-get install npm
+  # install docker-compose
   - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   - sudo chmod +x /usr/local/bin/docker-compose
   - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
@@ -43,10 +40,12 @@ jobs:
         - sudo docker push yannicnevhi/fastapi
     - stage: flake8
       script: flake8 --config=flake8.ini
-    - stage: postman-test
+    - stage: postman-api-tests
       script:
         - sudo docker-compose -f docker/production/docker-compose.yml up -d
         - sleep 30s
         - newman run postman/local/CocktailMachine.postman_collection.json
-      after_success:
+     - stage: pytest
+       script: echo "pytest, work in progress..."
+       after_success:
         - codecov
