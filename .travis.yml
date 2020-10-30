@@ -38,15 +38,18 @@ before_script:
   # start requried containers
   - sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo:2.4.14
   - sudo docker container run -d --name fastapi -p 8000:8000 yannicnevhi/fastapi
-    # check if containers are running
-  - sudo docker ps
-  - sleep 15s
+  # check if containers are running
+  - sleep 60s
   - sudo docker ps
 jobs:
   include:
     - stage: flake8
       script: flake8 --config=flake8.ini
     - stage: postman-test
-      script: newman run postman/local/CocktailMachine.postman_collection.json
+      script:
+        - sudo docker ps
+        - sudo docker container logs fastapi
+        - sudo docker container logs mongodb
+        - newman run postman/local/CocktailMachine.postman_collection.json
       after_success:
         - codecov
