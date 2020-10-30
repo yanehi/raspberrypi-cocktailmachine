@@ -14,7 +14,7 @@ services:
         target: /data/db
 
   fastapi:
-    image: yanehi/fastapi
+    image: yannicnevhi/fastapi
     container_name: fastapi
     depends_on:
       - mongodb
