@@ -48,4 +48,4 @@ jobs:
      - stage: pytest
        script: echo "pytest, work in progress..."
        after_success:
-        - codecov
+       - codecov
