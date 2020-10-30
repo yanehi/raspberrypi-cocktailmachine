@@ -14,10 +14,8 @@ services:
         target: /data/db
 
   fastapi:
+    image: yanehi/fastapi
     container_name: fastapi
-    build:
-      context: ../../
-      dockerfile: ./docker/common/Dockerfile
     depends_on:
       - mongodb
     ports:
