@@ -34,25 +34,19 @@ install:
   - pip3 install flake8
   # pushing later codecoverage to codecav
   - pip3 install codecov
-before_script:
-  # login to dockerhub for pushing own image
-  - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
-  - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
-  - sudo docker push yannicnevhi/fastapi
-  # start requried containers
-  #- sudo docker container run -d --name mongodb -v mongo_data:/data/db -p 27017:27017 mongo:2.4.14
-  #- sudo docker container run -d --name fastapi -p 8000:8000 yannicnevhi/fastapi
-  # check if containers are running
-  #- sleep 60s
-  #- sudo docker ps
 jobs:
   include:
+    - stage: build
+      script:
+        - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
+        - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
+        - sudo docker push yannicnevhi/fastapi
     - stage: flake8
       script: flake8 --config=flake8.ini
     - stage: postman-test
       script:
-        - sudo docker-compose -f /docker/production/docker-compose.yml up -d
-        - sleep 60s
+        - sudo docker-compose -f docker/production/docker-compose.yml up -d
+        - sleep 30s
         - newman run postman/local/CocktailMachine.postman_collection.json
       after_success:
         - codecov
