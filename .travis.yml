@@ -45,7 +45,7 @@ jobs:
         - sudo docker-compose -f docker/production/docker-compose.yml up -d
         - sleep 30s
         - newman run postman/local/CocktailMachine.postman_collection.json
-     - stage: pytest
-       script: echo "pytest, work in progress..."
-       after_success:
-       - codecov
+    # - stage: pytest
+    #   script: echo "pytest, work in progress..."
+    #   after_success:
+    #   - codecov
