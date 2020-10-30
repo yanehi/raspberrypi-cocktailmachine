@@ -23,6 +23,10 @@ services:
     ports:
       - target: 8000
         published: 8000
+    volumes:
+      - type: bind
+        source: ../../api
+        target: /usr/src/api
 
 volumes:
   mongo_data:
