@@ -2,10 +2,8 @@ version: "3.3"
 
 services:
   mongodb:
-    container_name: alpine-mongodb-3.4.4
-    build:
-      context: ../../
-      dockerfile: ./docker/common/mongodb/Dockerfile
+    image: mongo:2.4.14
+    container_name: mongodb
     restart: always
     ports:
       - target: 27017
@@ -16,15 +14,17 @@ services:
         target: /data/db
 
   fastapi:
+    image: yannicnevhi/fastapi
     container_name: fastapi
-    build:
-      context: ../../
-      dockerfile: ./docker/common/Dockerfile
     depends_on:
       - mongodb
     ports:
       - target: 8000
         published: 8000
+    volumes:
+      - type: bind
+        source: ../../api
+        target: /usr/src/api
 
 volumes:
   mongo_data:

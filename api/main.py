@@ -1,9 +1,9 @@
-from bson import ObjectId
 from fastapi import FastAPI, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from models import Recipe, MongoDB, Ingredient
-#from gpio import Dispenser
+# from gpio import Dispenser
 import json
+from bson import ObjectId
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -136,20 +136,20 @@ async def mix_cocktail(name: str):
             dispenser_number = dispenser['dispenser']
             if dispenser_number == 0:
                 #dispenser0.on(ingredients_amount)
-                disp1 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
-                dispenser_return_message.append(disp1)
+                disp0 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp0)
             elif dispenser_number == 1:
                 #dispenser1.on(ingredients_amount)
-                disp2 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
-                dispenser_return_message.append(disp2)
+                disp1 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp1)
             elif dispenser_number == 2:
                 #dispenser2.on(ingredients_amount)
-                disp3 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
-                dispenser_return_message.append(disp3)
+                disp2 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp2)
             elif dispenser_number == 3:
                 #dispenser3.on(ingredients_amount)
-                disp4 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
-                dispenser_return_message.append(disp4)
+                disp3 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
+                dispenser_return_message.append(disp3)
 
     return {'message': dispenser_return_message}
 
@@ -171,8 +171,6 @@ async def create_recipe(new_recipe: Recipe):
 
 
 # Ingredient Routes
-
-
 # get all ingredients
 @app.get('/apiv1/ingredient')
 async def get_all_ingredients():
@@ -209,6 +207,7 @@ async def create_ingredient(new_ingredient: Ingredient):
     for ingredient in ingredients:
         if ingredient.name == new_ingredient.name:
             return {'error': 'Ingredient with same name already exists'}
+
     # if not, then save new ingredient
     json_compatible_data = jsonable_encoder(new_ingredient)
     mongo.get_db().ingredient.insert(json_compatible_data)
