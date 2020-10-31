@@ -5,7 +5,6 @@ from models import Recipe, MongoDB, Ingredient
 #from gpio import Dispenser
 import json
 
-
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
@@ -81,30 +80,21 @@ async def update_recipe_name(name: str, recipe: Recipe):
 
 
 def get_ingredient_ids(name):
-    recipes = []
-    for recipe in mongo.get_db().recipe.find({"name": name}):
-        recipes.append(Recipe(**recipe))
-
-    ingredient_ids = []
-
+    recipe = Recipe(**mongo.get_db().recipe.find_one({"name": name}))
+    ingredientsIds = []
     # add all ingredient ids in a list
-    for counter in range(len(recipe['ingredients'])):
-        ingredient_ids.append(recipe['ingredients'][counter]['ingredientId'])
-    return ingredient_ids
+    for ingredient in recipe.ingredients:
+        print(ingredient)
+        ingredientsIds.append(ingredient['ingredientId'])
+    return ingredientsIds
 
 
 def get_ingredients(name):
-    recipe = mongo.get_db().recipe.find({"name": name})
-    print(recipe[0])
-    mapmap = dict(recipe[0])
-
-    found_recipe = Recipe(mapmap)
-
+    recipe = Recipe(**mongo.get_db().recipe.find_one({"name": name}))
     ingredients = []
-
     # add all ingredient ids in a list
-    for counter in found_recipe.ingredients:
-        ingredients.append(Ingredient(**counter))
+    for ingredient in recipe.ingredients:
+        ingredients.append(ingredient)
     return ingredients
 
 
@@ -129,12 +119,13 @@ async def is_cocktail_mixable(name: str):
 
 @app.get('/apiv1/recipe/{name}/mix')
 async def mix_cocktail(name: str):
+
     # !!!UNCOMMENT FOR RASPBERRY PI!!!
     # activate dispensers
-    #dispenser1 = Dispenser(18)
-    #dispenser2 = Dispenser(23)
-    #dispenser3 = Dispenser(24)
-    #dispenser4 = Dispenser(25)
+    #dispenser0 = Dispenser(18)
+    #dispenser1 = Dispenser(23)
+    #dispenser2 = Dispenser(24)
+    #dispenser3 = Dispenser(25)
 
     dispenser_return_message = []
 
@@ -143,20 +134,20 @@ async def mix_cocktail(name: str):
         ingredients_amount = ingredient['amount']
         for dispenser in mongo.get_db().ingredient.find({"_id": ObjectId(ingredient_id)}):
             dispenser_number = dispenser['dispenser']
-            if dispenser_number == 1:
-                #dispenser1.on(ingredients_amount)
+            if dispenser_number == 0:
+                #dispenser0.on(ingredients_amount)
                 disp1 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp1)
-            elif dispenser_number == 2:
-                #dispenser2.on(ingredients_amount)
+            elif dispenser_number == 1:
+                #dispenser1.on(ingredients_amount)
                 disp2 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp2)
-            elif dispenser_number == 3:
-                #dispenser3.on(ingredients_amount)
+            elif dispenser_number == 2:
+                #dispenser2.on(ingredients_amount)
                 disp3 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp3)
-            elif dispenser_number == 4:
-                #dispenser4.on(ingredients_amount)
+            elif dispenser_number == 3:
+                #dispenser3.on(ingredients_amount)
                 disp4 = "Dispenser " + str(dispenser_number) + " triggered for " + str(ingredients_amount) + "cl."
                 dispenser_return_message.append(disp4)
 
