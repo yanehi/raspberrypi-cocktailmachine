@@ -26,11 +26,11 @@ class MongoDB:
         return self.db
 
 
-class Recipe(BaseModel):
-    name: str
-    ingredients: list
-
-
 class Ingredient(BaseModel):
     name: str
     dispenser = -1
+
+
+class Recipe(BaseModel):
+    name: str
+    ingredients: list

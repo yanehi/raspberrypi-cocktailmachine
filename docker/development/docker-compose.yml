@@ -2,8 +2,8 @@ version: "3.3"
 
 services:
   mongodb:
-    image: yannicnevhi/alpine-mongo
-    container_name: alpine-mongodb-3.4.4
+    image: mongo:2.4.14
+    container_name: mongodb
     restart: always
     ports:
       - target: 27017

@@ -1,27 +1,53 @@
-language: python
-env:
-  global:
-  - PIP_CACHE_DIR="$HOME/.cache/pip"
+language: generic
+arch: amd64
+os: linux
+dist: bionic
+notifications:
+  email: false
+services:
+  - docker
 cache:
   pip: true
   directories:
-  - "$HOME/.cache/pip"
+    - "$HOME/.cache/pip"
+    - node_modules
 before_cache:
-- rm -f $HOME/.cache/pip/log/debug.log
-python:
-- '3.8'
-arch: arm64
-os: linux
-dist: focal
-before_install:
-- pip install codecov
+  - rm -f $HOME/.cache/pip/log/debug.log
 install:
-- pip install -r requirements.txt
+  - sudo apt-get install npm
+  # install docker-compose
+  - sudo curl -L "https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - sudo chmod +x /usr/local/bin/docker-compose
+  - sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  - docker-compose --version
+  # install latest pip
+  - curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  - python3 get-pip.py
+  - sudo rm get-pip.py
+  - pip3 --version
+  # newman for postman collection testing
+  - sudo npm install -g newman
+  # flake8 for code linting
+  - pip3 install flake8
+  # pushing later codecoverage to codecav
+  - pip3 install codecov
 jobs:
   include:
-  - stage: flake8
-    script: flake8 --config=flake8.ini
-    after_success:
-    - codecov
-    on:
-      branch: master
+    - stage: flake8
+      script:
+        - flake8 --config=flake8.ini
+    - stage: build
+      script:
+      #  - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
+        - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
+    - stage: postman-api-tests
+      script:
+        - sudo docker-compose -f docker/production/docker-compose.yml up -d
+        - sleep 30s
+        - newman run postman/CocktailMachine.postman_collection.json
+        - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
+        - sudo docker push yannicnevhi/fastapi
+    # - stage: pytest
+    #   script: echo "pytest, work in progress..."
+    #   after_success:
+    #   - codecov
