@@ -33,18 +33,18 @@ install:
   - pip3 install codecov
 jobs:
   include:
+    - stage: flake8
+        script: flake8 --config=flake8.ini
     - stage: build
       script:
         - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
         - sudo docker build -t yannicnevhi/fastapi -f docker/common/Dockerfile .
-        - sudo docker push yannicnevhi/fastapi
-    - stage: flake8
-      script: flake8 --config=flake8.ini
     - stage: postman-api-tests
       script:
         - sudo docker-compose -f docker/production/docker-compose.yml up -d
         - sleep 30s
-        - newman run postman/local/CocktailMachine.postman_collection.json
+        - newman run postman/CocktailMachine.postman_collection.json
+        - sudo docker push yannicnevhi/fastapi
     # - stage: pytest
     #   script: echo "pytest, work in progress..."
     #   after_success:
