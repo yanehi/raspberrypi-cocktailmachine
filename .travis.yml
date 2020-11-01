@@ -34,7 +34,8 @@ install:
 jobs:
   include:
     - stage: flake8
-        script: flake8 --config=flake8.ini
+      script:
+        - flake8 --config=flake8.ini
     - stage: build
       script:
         - echo "$DOCKER_PASSWORD" | sudo docker login --username "$DOCKER_USERNAME" --password-stdin
