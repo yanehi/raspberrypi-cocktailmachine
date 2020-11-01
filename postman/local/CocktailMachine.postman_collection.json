@@ -7,6 +7,25 @@
 	"item": [
 		{
 			"name": "Reset Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6070b470-03c7-47d6-8808-1e2f64028361",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.eql(\"All Data deleted\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -32,7 +51,62 @@
 					"script": {
 						"id": "71879731-c895-41e5-9218-1d0a09b8cd2a",
 						"exec": [
-							""
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Cola\",\n    \"dispenser\" : 0\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Cola (But i already exists)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f5768709-1ebf-4518-ba7a-98d7d79eb80f",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.detail).to.contains(\"Error\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -72,7 +146,15 @@
 					"script": {
 						"id": "8ab1b878-f653-4695-8e3d-b4e7168ab6dd",
 						"exec": [
-							""
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -112,7 +194,15 @@
 					"script": {
 						"id": "9225ba59-8723-4ce3-8e19-8f305628fa0e",
 						"exec": [
-							""
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -152,7 +242,15 @@
 					"script": {
 						"id": "94e5da41-8b46-43a2-8f4c-c50f191122d9",
 						"exec": [
-							""
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -192,7 +290,16 @@
 					"script": {
 						"id": "363637e2-c8f0-4f87-ae17-1a79e2ca02af",
 						"exec": [
-							""
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.dispenser).to.be.eq(-1);",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -233,8 +340,19 @@
 						"id": "c2bad917-d162-4923-810e-df3b91e72631",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"colaId\", jsonData.ingredient.id);",
-							""
+							"pm.environment.set(\"colaId\", jsonData.data.id);",
+							"",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"id\");",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.id).to.be.eq(pm.environment.get(\"colaId\"));",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -267,7 +385,19 @@
 						"id": "365ad2e6-10c5-4814-b5de-09464fea5547",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"rumId\", jsonData.ingredient.id);"
+							"pm.environment.set(\"rumId\", jsonData.data.id);",
+							"",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"id\");",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.id).to.be.eq(pm.environment.get(\"rumId\"));",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -292,6 +422,45 @@
 			"response": []
 		},
 		{
+			"name": "Get Fanta (But it doesn't exist)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "13e927fa-66ad-468d-a495-b7dd542d61e9",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"    pm.expect(responseJson.detail).to.contains(\"Error\");",
+							" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Fanta",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Fanta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Cuba Libre",
 			"event": [
 				{
@@ -300,6 +469,24 @@
 						"id": "0a257fac-cfa0-462d-ba05-0bfa76fece6c",
 						"exec": [
 							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4efe1ed1-a45f-4fcb-9bda-3c57ba9ad1a6",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"ingredients\");",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -339,6 +526,143 @@
 			"response": []
 		},
 		{
+			"name": "Get Cuba Libre",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "af835fcb-9136-494b-8d56-9f9489c67d80",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "67e045da-c702-43a3-80f5-accb1cda7ad5",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\")",
+							"  pm.expect(responseJson.data).to.have.property(\"ingredients\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Cuba Libre",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Cuba Libre"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Vodka Fanta (But it doesn't exist)",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "c01025ae-67bf-43bd-8026-0c8ae8540acf",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "55d062c0-ae90-4082-99b7-cb5ffae03405",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.detail).to.contain(\"Error\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Vodka Fanta",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Vodka Fanta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Get Vodka",
 			"event": [
 				{
@@ -347,7 +671,19 @@
 						"id": "2b0e929c-9759-49bd-9406-64853a4ca732",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"vodkaId\", jsonData.ingredient.id);"
+							"pm.environment.set(\"vodkaId\", jsonData.data.id);",
+							"",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"id\");",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.id).to.be.eq(pm.environment.get(\"vodkaId\"));",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -380,7 +716,19 @@
 						"id": "b41782ba-1d9d-4787-99b0-a48a97459637",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"orangeId\", jsonData.ingredient.id);"
+							"pm.environment.set(\"orangeId\", jsonData.data.id);",
+							"",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"id\");",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.id).to.be.eq(pm.environment.get(\"orangeId\"));",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -413,7 +761,19 @@
 						"id": "3a2831aa-a9ae-454f-81fa-eacac629ec3f",
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
-							"pm.environment.set(\"energyId\", jsonData.ingredient.id);"
+							"pm.environment.set(\"energyId\", jsonData.data.id);",
+							"",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"id\");",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.id).to.be.eq(pm.environment.get(\"energyId\"));",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -439,6 +799,26 @@
 		},
 		{
 			"name": "Create Vodka Energy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ef653c63-5a14-4673-82a9-75b6ebf8cb31",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"ingredients\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -467,6 +847,26 @@
 		},
 		{
 			"name": "Create Vodka Orange",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a49373c-782a-47c3-ba92-46488e03dfdf",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"ingredients\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -495,6 +895,20 @@
 		},
 		{
 			"name": "Get all Recipes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "574edf22-b6c9-4db7-b937-8ede707565bf",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -532,8 +946,8 @@
 					"script": {
 						"id": "47793a12-0240-4f92-a076-6279283f8333",
 						"exec": [
-							"pm.test(\"response should be true\", function () {",
-							"    pm.response.to.have.jsonBody(true);",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -577,8 +991,13 @@
 					"script": {
 						"id": "b4856eec-086d-4ab5-947e-e8145f5ece71",
 						"exec": [
-							"pm.test(\"response should be true\", function () {",
-							"    pm.response.to.have.jsonBody(true);",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.be.eq(true)",
 							"});"
 						],
 						"type": "text/javascript"
@@ -612,8 +1031,13 @@
 					"script": {
 						"id": "8911bf05-c17b-43ca-a899-c34138ec57e0",
 						"exec": [
-							"pm.test(\"response should be true\", function () {",
-							"    pm.response.to.have.jsonBody(true);",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.be.eq(true)",
 							"});"
 						],
 						"type": "text/javascript"
@@ -647,8 +1071,13 @@
 					"script": {
 						"id": "fa66cd24-ca3a-4791-80e0-ca0ed2602d0a",
 						"exec": [
-							"pm.test(\"response should be true\", function () {",
-							"    pm.response.to.have.jsonBody(false);",
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.be.eq(false)",
 							"});"
 						],
 						"type": "text/javascript"
@@ -673,6 +1102,316 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Is Vodka Fanta mixable (But it doesn't exist)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "16264dcd-ebd0-45cd-a022-c6d10dcc4919",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.detail).to.contains(\"Error\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Vodka Fanta/mixable",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Vodka Fanta",
+						"mixable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Vodka to Dispenser -1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d563f155-1659-4366-b90a-180f362eecf5",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\");",
+							"  pm.expect(responseJson.data).to.have.property(\"dispenser\");",
+							"  pm.expect(responseJson.data.dispenser).to.be.eq(-1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Vodka\",\n    \"dispenser\" : -1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Vodka",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Vodka"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Is Vodka Energy mixable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "09fb7d06-2844-4104-8231-5950699b5b05",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.be.eq(false)",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Vodka Energy/mixable",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Vodka Energy",
+						"mixable"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set Fanta to Dispenser 2 (But it doesn't exists)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fecf3571-7c02-46b5-b384-3917b84fe8c1",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.detail).to.contain(\"Error\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"Fanta\",\n    \"dispenser\" : 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/ingredient/Fanta",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"ingredient",
+						"Fanta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Cuba Libre",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9a5ab6fb-18ff-421f-b222-729bc741d9c6",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "de774160-b73b-4697-ad2b-5ac145166364",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\")",
+							"  pm.expect(responseJson.data).to.have.property(\"ingredients\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\" : \"New Cuba Libre\",\n    \"ingredients\" : []\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/Cuba Libre",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"Cuba Libre"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Cuba Libre",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8ac79db3-6227-4a1a-a1d5-a839279ecc58",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "19c63535-f34b-4015-8bd4-19e0aaa3c959",
+						"exec": [
+							"pm.test(\"Status test\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Respone Body\", () => {",
+							"  const responseJson = pm.response.json();",
+							"  pm.expect(responseJson.data).to.have.property(\"name\")",
+							"  pm.expect(responseJson.data).to.have.property(\"ingredients\")",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"type": "text",
+						"value": "",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}:{{port}}/apiv1/recipe/New Cuba Libre",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"apiv1",
+						"recipe",
+						"New Cuba Libre"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -692,21 +1431,19 @@
 				"id": "7bf54672-de93-43ac-ba5a-d585bf574f2b",
 				"type": "text/javascript",
 				"exec": [
-					"pm.test(\"Status test\", function () {",
-					"    pm.response.to.have.status(200);",
-					"});"
+					""
 				]
 			}
 		}
 	],
 	"variable": [
 		{
-			"id": "589961e7-961e-4d6e-9bc2-f7f43b728287",
+			"id": "9c66bf99-a491-4ae5-916b-8c8b055c86be",
 			"key": "host",
 			"value": "127.0.0.1"
 		},
 		{
-			"id": "f71b8801-3ff7-4670-b540-22491d4a6cf2",
+			"id": "d1ab755a-249c-454b-b1a4-1499edbd96eb",
 			"key": "port",
 			"value": "8000"
 		}

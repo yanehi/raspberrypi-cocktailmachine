@@ -65,7 +65,7 @@ async def update_recipe_name(name: str, recipe: Recipe):
     if req is None:
         raise HTTPException(status_code=404, detail="Error: Recipe not found")
 
-    # Check if new name doesn't exist
+    # Todo: Check if new name doesn't exist
     nameExists = False
     # for recipe in mongo.get_db().recipe.find():
         # r = Recipe(**recipe)
