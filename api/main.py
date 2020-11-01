@@ -67,10 +67,6 @@ async def update_recipe_name(name: str, recipe: Recipe):
 
     # Todo: Check if new name doesn't exist
     nameExists = False
-    # for recipe in mongo.get_db().recipe.find():
-        # r = Recipe(**recipe)
-        # if r.name == recipe.name:
-        #    nameExists = True
 
     if nameExists is True:
         raise HTTPException(status_code=200, detail="Error: Recipe with same name already exists")
@@ -131,7 +127,6 @@ async def is_cocktail_mixable(name: str):
 
 @app.get('/apiv1/recipe/{name}/mix')
 async def mix_cocktail(name: str):
-
     # !!!UNCOMMENT FOR RASPBERRY PI!!!
     # activate dispensers
     # dispenser0 = Dispenser(18)
